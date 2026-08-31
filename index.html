@@ -957,6 +957,97 @@ You: "Always use pytest over unittest"
 </code>
                     </div>
 
+                    <!-- How memories get built -->
+                    <div class="card" style="margin-top:1.5rem;">
+                        <h3>How Memories Get Built</h3>
+                        <p>Three consolidation triggers:</p>
+                        <ul class="feature-list">
+                            <li><strong><code>learn_add</code> MCP tool</strong> — user says "remember X" or agent is corrected → immediate lesson save</li>
+                            <li><strong>Every 30 messages</strong> → Preferences path: wholesale-replaces <code>preferences.md</code> + <code>projects.md</code>, extracts semantic entries (max 20)</li>
+                            <li><strong>3-hour idle</strong> → History path: appends to <code>history/{date}.md</code>, extracts episodic entries (max 10) + implicit lessons</li>
+                        </ul>
+                        <p style="margin-top:0.5rem;">The prefs path does <strong>not</strong> advance the persisted <code>last_consolidated</code> marker — history consolidation always covers all messages, even if prefs consolidation fired earlier.</p>
+                        <p style="margin-top:0.5rem;"><strong>Explicit vs implicit lessons:</strong> explicit = user says "remember to always…" (saved immediately via <code>learn_add</code>); implicit = correction detected without "remember" (extracted during history consolidation). Both go through <code>write_lesson()</code> with substring + topic-overlap dedup.</p>
+                    </div>
+
+                    <!-- Conflict Resolution -->
+                    <div class="card" style="margin-top:1.5rem;">
+                        <h3>Conflict Resolution — 6-Level Priority Order</h3>
+                        <ol style="line-height:1.9;">
+                            <li><strong>Lessons</strong> (user-explicit, confidence 1.0) — injected as <code>[Learned corrections]</code> "ALWAYS follow these"</li>
+                            <li><strong>Semantic memory</strong> (user-explicit writes)</li>
+                            <li><strong>Semantic memory</strong> (LLM writes, confidence ≥ 0.8)</li>
+                            <li><strong>Preferences / Projects</strong> (consolidation-generated)</li>
+                            <li><strong>Episodic memory</strong> (relevance-scored fragments)</li>
+                            <li><strong>History</strong> (time-decayed summaries)</li>
+                        </ol>
+                    </div>
+
+                    <!-- Context Assembly -->
+                    <div class="card" style="margin-top:1.5rem;">
+                        <h3>Context Assembly</h3>
+                        <p><strong>At session start:</strong></p>
+                        <ul class="feature-list">
+                            <li>Critical rules (~500 chars) · Date/time · Agent system prompt</li>
+                            <li>Thread history (45,000 chars, LLM-compressed)</li>
+                            <li>Preferences (4,250) · Projects (6,400) · Recent history (26,600)</li>
+                            <li>Skills (always-on + summaries) · Lessons (37,250) · Semantic (12,000)</li>
+                        </ul>
+                        <p style="margin-top:0.5rem;"><strong>Per message (follow-up turns):</strong></p>
+                        <ul class="feature-list">
+                            <li>Episodic memory (queried by message text, top-8 up to 3,000 chars)</li>
+                            <li>Channel history (Slack observe mode)</li>
+                            <li>Triggered skills (on-demand, matching message keywords)</li>
+                            <li>Hook context (config-driven rules)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Channel-Aware Memory -->
+                    <div class="card" style="margin-top:1.5rem;">
+                        <h3>Channel-Aware Memory</h3>
+                        <p>Same memory store across every channel, but recording behavior varies:</p>
+                        <table style="width:100%; margin-top:0.5rem; border-collapse:collapse; font-size:0.9rem;">
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                                <th style="text-align:left; padding:0.5rem;">Channel</th>
+                                <th style="text-align:left; padding:0.5rem;">Activation</th>
+                                <th style="text-align:left; padding:0.5rem;">History Buffer</th>
+                                <th style="text-align:left; padding:0.5rem;">Consolidation</th>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;">DM</td><td style="padding:0.5rem;">always</td><td style="padding:0.5rem;">Session-based (ACP)</td><td style="padding:0.5rem;">✅ Yes</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;">Group (mention)</td><td style="padding:0.5rem;">@mention</td><td style="padding:0.5rem;">50 msg, 5-min TTL, in-memory</td><td style="padding:0.5rem;">✅ When @mentioned</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;">Group (observe)</td><td style="padding:0.5rem;">observe</td><td style="padding:0.5rem;">200 msg, 1-week TTL, disk</td><td style="padding:0.5rem;">✅ When @mentioned</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;">Group (off)</td><td style="padding:0.5rem;">off</td><td style="padding:0.5rem;">None</td><td style="padding:0.5rem;">❌ No</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:0.5rem;">Dashboard tab</td><td style="padding:0.5rem;">N/A</td><td style="padding:0.5rem;">Session-based (ACP)</td><td style="padding:0.5rem;">✅ Yes</td>
+                            </tr>
+                        </table>
+                        <p style="margin-top:0.5rem; font-size:0.9rem;"><strong>Observe-mode security:</strong> only messages from authorized users (owner + allowlist) are recorded; non-authorized messages are silently dropped.</p>
+                    </div>
+
+                    <!-- Teaching & Managing -->
+                    <div class="card" style="margin-top:1.5rem;">
+                        <h3>Teaching Crew &amp; Managing Memory</h3>
+                        <div class="code-block" style="margin-top:0.5rem;">
+<code><span class="code-comment"># CLI lesson management</span>
+kirocrew learn add "always use TypeScript over JavaScript"
+kirocrew learn add "prefer pytest over unittest" --category tool
+kirocrew learn list
+kirocrew learn remove "prefer pytest"
+</code>
+                        </div>
+                        <p style="margin-top:0.5rem;">The <code>learn_add</code> MCP tool is the same interface exposed to the LLM — when the agent recognizes a correction, it calls the tool itself.</p>
+                        <p style="margin-top:0.5rem;"><strong>Dashboard surfaces:</strong> Memory Graph Explorer (visualize semantic relationships via vis.js) · Skills/Lessons CRUD · Knowledge Library (curated doc store, separate from episodic/semantic).</p>
+                        <p style="margin-top:0.5rem;"><strong>Backup:</strong> Memory is included in <code>kirocrew snapshot</code> (episodic + semantic DBs + workspace/memory/ markdown). See Snapshot &amp; Restore section.</p>
+                    </div>
+
                     <div class="info-box">
                         <h4>📚 Source</h4>
                         <p><a href="https://kiro.dev/docs/crew/features/memory/" target="_blank" class="reference-link">kiro.dev/docs/crew/features/memory/</a></p>

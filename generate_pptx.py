@@ -357,6 +357,33 @@ def create_presentation():
             "All limits verified from: kiro.dev/docs/crew/features/memory/"
         ]
     )
+
+    add_content_slide(prs,
+        "Memory: How It's Built & Conflict Resolution",
+        [
+            "Consolidation triggers:",
+            "  learn_add (immediate) / 30 messages (prefs) / 3h idle (history)",
+            "Explicit lessons (say 'remember') vs implicit (correction detected)",
+            "",
+            "Conflict resolution priority (highest wins):",
+            "  1 Lessons (conf 1.0)  2 Semantic (user)  3 Semantic (LLM >=0.8)",
+            "  4 Preferences/Projects  5 Episodic  6 History",
+        ]
+    )
+
+    add_content_slide(prs,
+        "Memory: Context Assembly & Channel-Aware",
+        [
+            "Session start: rules, prompt, thread history (45K compressed),",
+            "  prefs/projects/history, skills, lessons, semantic",
+            "Per message: episodic (top-8), channel history, triggered skills, hooks",
+            "",
+            "Channel-aware recording:",
+            "  DM=always | group @mention (50msg/5min) | observe (200msg/1wk)",
+            "  | off=none | dashboard=session. Observe records authorized users only",
+            "Teach: kirocrew learn add/list/remove; Memory Graph Explorer in dashboard",
+        ]
+    )
     
     add_content_slide(prs,
         "Subagents",
