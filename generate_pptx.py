@@ -451,6 +451,21 @@ def create_presentation():
             "Source: kiro.dev/docs/crew/features/task-runner/"
         ]
     )
+
+    add_content_slide(prs,
+        "Task Runner: Use Cases & Live Demo",
+        [
+            "For multi-step unattended work that must survive failures & resume",
+            "  Multi-repo migration -> per-repo checkpoint (Enterprise ex below)",
+            "  Large refactor from spec -> execute/test/self-review diff/commit",
+            "  Backlog burn-down -> 10+ hr unattended, watchdog 60m/2h",
+            "  Test-and-fix loops -> retry on red (MAX_RETRIES 3)",
+            "NOT for: chat exploration / recurring (cron) / parallel (subagents)",
+            "",
+            "LIVE DEMO: kirocrew run demo-task-spec.md --name 'Training QA' --no-test",
+            "  read-only QA of the training site - safe to run on stage",
+        ]
+    )
     
     add_content_slide(prs,
         "Artifacts & Knowledge",

@@ -1273,6 +1273,52 @@ kirocrew cron remove 66d68a11
                         </div>
                     </div>
 
+                    <!-- Use cases -->
+                    <div class="card" style="margin-top:1.5rem;">
+                        <h3>Use Cases</h3>
+                        <p>Task Runner is for <strong>multi-step, unattended work that must survive failures and resume</strong> — it decomposes a spec, executes with per-step git commits, runs tests, does an independent self-review of the actual <code>git diff</code>, and retries or re-plans. Runs up to 3 tasks concurrently; 10+ hour unattended runs are the design target.</p>
+                        <table style="width:100%; border-collapse:collapse; font-size:0.9rem; margin-top:0.75rem;">
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                                <th style="text-align:left; padding:0.5rem;">Use case</th>
+                                <th style="text-align:left; padding:0.5rem;">Why Task Runner (not chat / cron)</th>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Multi-repo migration</strong> — bump a dependency / apply a codemod across 50 repos</td>
+                                <td style="padding:0.5rem;">Per-repo checkpoint + resume; a failure at repo 37 doesn't restart the other 36. See <a href="#use-cases" class="reference-link">Enterprise: Multi-Repo Migration</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Large feature / refactor from a spec</strong></td>
+                                <td style="padding:0.5rem;">Decompose → execute → test → self-review the diff → commit; auto-retry (MAX_RETRIES 3) and re-plan on failure</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Backlog burn-down</strong> — clear a list of small, well-specified fixes overnight</td>
+                                <td style="padding:0.5rem;">Unattended 10+ hr runs; watchdog warns at 60 min, resets at 2 hr; crash-recovers running→paused on restart</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:0.5rem;"><strong>Test-and-fix loops</strong> — implement until the test suite passes</td>
+                                <td style="padding:0.5rem;">Runs build/test after each step, reverts and retries on red (skip with <code>--no-test</code>)</td>
+                            </tr>
+                        </table>
+                        <p style="margin-top:0.75rem; font-size:0.9rem;"><strong>When NOT to use it:</strong> interactive exploration or a one-shot answer → use Chat; time/event-driven recurring work → use <a href="#features" class="reference-link">Scheduling</a>; parallel independent research → use <a href="#features" class="reference-link">Subagents</a>. Task Runner is specifically for sequential, checkpointed, self-verifying execution of a spec.</p>
+                    </div>
+
+                    <!-- Live demo -->
+                    <div class="card" style="margin-top:1.5rem; border-color: rgba(16,185,129,0.4);">
+                        <h3>🔴 Live Demo — a real task spec you can run</h3>
+                        <p>A runnable spec ships with this training at <code>demo-task-spec.md</code> — a safe, read-only quality check of this very training site (count sections, verify each has a title + content + source, check nav links and the SVG).</p>
+                        <div class="code-block" style="margin-top:0.5rem;">
+<code><span class="code-comment"># Run the demo task from the CLI</span>
+kirocrew run demo-task-spec.md --name "Training QA" --no-test
+
+<span class="code-comment"># Or: dashboard Projects panel → paste/point at the spec → Refine → Run</span>
+<span class="code-comment"># Useful flags</span>
+kirocrew run demo-task-spec.md --fresh        <span class="code-comment"># ignore checkpoint</span>
+kirocrew run demo-task-spec.md --timeout 600  <span class="code-comment"># cap runtime</span>
+</code>
+                        </div>
+                        <p style="margin-top:0.5rem; font-size:0.9rem;">During the lecture: open the <strong>Projects</strong> panel, start the task, and watch the Decompose → Execute → Test → Self-review → Commit loop run with live checkpoints. The spec is read-only (it inspects <code>index.html</code>), so it is safe to run in front of an audience.</p>
+                    </div>
+
                     <div class="info-box">
                         <h4>📚 Source</h4>
                         <p><a href="https://kiro.dev/docs/crew/features/task-runner/" target="_blank" class="reference-link">kiro.dev/docs/crew/features/task-runner/</a></p>
