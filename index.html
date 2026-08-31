@@ -2035,18 +2035,44 @@ open http://localhost:5476
 
         // ---- Quiz ----
         const QUIZ_ANSWERS = { q1:'b', q2:'c', q3:'b', q4:'b', q5:'b', q6:'c', q7:'c', q8:'c', q9:'a', q10:'b' };
-        const QUIZ_EXPLAIN = {
-            q1: 'Kiro Crew uses Kiro subscription credits, shared across all surfaces (not AWS Bedrock).',
-            q2: 'Six independent memory layers: Preferences, Projects, Recent History, Semantic, Episodic, Lessons.',
-            q3: '3–32 concurrent subagents, auto-sized to machine resources (not a fixed 11).',
-            q4: 'Heartbeats are reactive — they only surface when something changes.',
-            q5: 'User → Gateway (local :5476) → kiro-cli (ACP) → Kiro Model Services (cloud).',
-            q6: 'The security pipeline has 8 layers (owner lock → … → output redaction).',
-            q7: 'Lessons (user-explicit, confidence 1.0) win — injected as "ALWAYS follow these".',
-            q8: 'The default sandbox mode is "auto".',
-            q9: 'snapshot backs up memory, workspace, crons, config, skills, and notifications.',
-            q10: 'Real-time interactive coding is the IDE/CLI strength; the others are Crew-specific.'
+        // Detailed feedback per question: correct option label, full reason, official source.
+        const QUIZ_INFO = {
+            q1: { opt:'B — Kiro subscription credits shared across all surfaces',
+                  why:'Kiro Crew is not a separate product and does not bill through AWS Bedrock. One Kiro subscription and its credit pool cover every surface — IDE, CLI, Web, Mobile, and Crew. Model calls consume credits at each model\u2019s multiplier (Opus 5 = 2.2x, Sonnet family ~1.3x, open-weight 0.05x\u20130.5x).',
+                  src:'https://kiro.dev/pricing/', srcLabel:'kiro.dev/pricing/' },
+            q2: { opt:'C — 6',
+                  why:'There are six independent memory layers: Preferences (4,250 chars), Projects (6,400), Recent History (26,600, tiered decay), Semantic (12,000), Episodic (3,000/top-8, max 10,000 entries), and Lessons (37,250, max 50). Each has a distinct purpose, lifecycle, and cap.',
+                  src:'https://kiro.dev/docs/crew/features/memory/', srcLabel:'kiro.dev/docs/crew/features/memory/' },
+            q3: { opt:'B — 3\u201332, depending on machine resources',
+                  why:'Subagent concurrency is auto-sized to your machine, usually 3\u201332 (it is NOT a fixed 11). Each subagent has a 30-minute hard timeout and ~2-minute stall detection, and runs in an isolated session with memory injected.',
+                  src:'https://kiro.dev/docs/crew/features/subagents/', srcLabel:'kiro.dev/docs/crew/features/subagents/' },
+            q4: { opt:'B — Heartbeats',
+                  why:'Heartbeats are reactive: they check ~every 60s and only surface when something changes (e.g. a PR goes stale). Cron is time-driven (run on a clock), Webhooks are event-driven (an outside system calls in), and Task Runner executes a spec \u2014 none of those is the \u201conly wake me on change\u201d pattern.',
+                  src:'https://kiro.dev/docs/crew/features/cron/', srcLabel:'kiro.dev/docs/crew/features/cron/' },
+            q5: { opt:'B — User \u2192 Gateway (local) \u2192 kiro-cli (ACP) \u2192 Kiro Model Services (cloud)',
+                  why:'The Gateway is a local Python server on port 5476. It drives the LLM through kiro-cli over the Agent Client Protocol (ACP is the only provider), and kiro-cli connects to Kiro\u2019s managed cloud model services. There is no AWS Bedrock in the path.',
+                  src:'https://kiro.dev/docs/crew/installation/', srcLabel:'kiro.dev/docs/crew/installation/' },
+            q6: { opt:'C — 8',
+                  why:'The defense-in-depth pipeline has 8 layers, in order: owner lock \u2192 denied commands (137) \u2192 governance ceiling \u2192 sensitive-path blocking \u2192 tool approval \u2192 input validation \u2192 OS sandbox \u2192 output redaction. SEL audit records every decision as a cross-cutting concern.',
+                  src:'https://kiro.dev/docs/crew/security/', srcLabel:'kiro.dev/docs/crew/security/' },
+            q7: { opt:'C — Lessons (user-explicit, confidence 1.0)',
+                  why:'Conflict-resolution priority (highest first): 1 Lessons \u2192 2 Semantic (user-explicit) \u2192 3 Semantic (LLM, \u22650.8) \u2192 4 Preferences/Projects \u2192 5 Episodic \u2192 6 History. Lessons win because they are injected in a distinct \u201c[Learned corrections] \u2014 ALWAYS follow these\u201d block.',
+                  src:'https://kiro.dev/docs/crew/features/memory/', srcLabel:'kiro.dev/docs/crew/features/memory/' },
+            q8: { opt:'C — auto',
+                  why:'The default sandbox mode is \u201cauto\u201d: it hides .gnupg/.gcloud/.azure/.docker while allowing .aws/.ssh/.kube (so git-over-SSH and the AWS CLI still work). \u201cstrict\u201d hides those too; \u201coff\u201d disables the OS layer. Windows has no OS-level sandbox layer, but all other protections still apply.',
+                  src:'https://kiro.dev/docs/crew/security/', srcLabel:'kiro.dev/docs/crew/security/' },
+            q9: { opt:'A — Backs up memory, workspace, crons, config, skills, notifications into one portable file',
+                  why:'kirocrew snapshot bundles Memory (episodic/semantic/FTS), Workspace (prefs/projects/history/knowledge), Crons, Config, Skills, and Notifications. It does NOT restart the gateway, deploy anything, or clear memory. It excludes host secrets and kiro-cli/AWS credentials.',
+                  src:'https://kiro.dev/docs/crew/features/snapshot/', srcLabel:'kiro.dev/docs/crew/features/snapshot/' },
+            q10:{ opt:'B — Real-time interactive coding assistance',
+                  why:'Real-time interactive coding is exactly what IDE/CLI are for \u2014 it is not Crew-specific. Persistent 6-layer memory, scheduled cron jobs, and multi-instance management ARE Crew-specific capabilities that IDE/CLI do not provide.',
+                  src:'https://kiro.dev/docs/crew/', srcLabel:'kiro.dev/docs/crew/' }
         };
+        // Map option value -> the visible label text, read live from the DOM.
+        function optionLabel(q, value) {
+            const input = document.querySelector('input[name="' + q + '"][value="' + value + '"]');
+            return input ? input.parentElement.textContent.trim() : value;
+        }
         const QUIZ_TOTAL = Object.keys(QUIZ_ANSWERS).length;
 
         function submitQuiz() {
@@ -2056,16 +2082,23 @@ open http://localhost:5476
             for (const q in QUIZ_ANSWERS) {
                 const sel = document.querySelector('input[name="' + q + '"]:checked');
                 const num = q.replace('q', '');
-                if (!sel) {
-                    unanswered++;
-                    details += '<p style="padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.05);">⚪ <strong>Q' + num + '</strong> — not answered. ' + QUIZ_EXPLAIN[q] + '</p>';
-                    continue;
-                }
-                if (sel.value === QUIZ_ANSWERS[q]) {
+                const info = QUIZ_INFO[q];
+                const srcHtml = '<a href="' + info.src + '" target="_blank" class="reference-link">' + info.srcLabel + '</a>';
+                if (sel && sel.value === QUIZ_ANSWERS[q]) {
                     score++;
-                    details += '<p style="padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.05);">✅ <strong>Q' + num + '</strong> — correct.</p>';
+                    details += '<div style="padding:0.75rem 0; border-bottom:1px solid rgba(255,255,255,0.06);">'
+                        + '<p style="color:#10b981;"><strong>✅ Q' + num + ' — Correct</strong></p></div>';
                 } else {
-                    details += '<p style="padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.05);">❌ <strong>Q' + num + '</strong> — ' + QUIZ_EXPLAIN[q] + '</p>';
+                    // wrong or unanswered -> detailed explanation
+                    if (!sel) unanswered++;
+                    const yourAns = sel ? optionLabel(q, sel.value) : '(not answered)';
+                    details += '<div style="padding:0.75rem 0; border-bottom:1px solid rgba(255,255,255,0.06);">'
+                        + '<p style="color:#ec4899;"><strong>❌ Q' + num + ' — ' + (sel ? 'Incorrect' : 'Not answered') + '</strong></p>'
+                        + (sel ? '<p style="font-size:0.9rem; color:var(--text-secondary); margin-top:0.25rem;">Your answer: ' + yourAns + '</p>' : '')
+                        + '<p style="font-size:0.9rem; margin-top:0.25rem;"><strong style="color:#10b981;">Correct answer:</strong> ' + info.opt + '</p>'
+                        + '<p style="font-size:0.9rem; color:var(--text-secondary); margin-top:0.4rem; line-height:1.55;">' + info.why + '</p>'
+                        + '<p style="font-size:0.85rem; margin-top:0.4rem;">📚 Source: ' + srcHtml + '</p>'
+                        + '</div>';
                 }
             }
             if (unanswered > 0 && !confirm(unanswered + ' question(s) are unanswered and will be marked wrong. Submit anyway?')) {
@@ -2077,9 +2110,9 @@ open http://localhost:5476
             scoreEl.textContent = 'Score: ' + score + ' / ' + QUIZ_TOTAL + '  (' + pct + '%)';
             let msg, color;
             if (pct === 100) { msg = '🏆 Perfect! You have mastered Kiro Crew.'; color = 'var(--secondary)'; }
-            else if (pct >= 80) { msg = '🎉 Great work — you know Kiro Crew well.'; color = 'var(--secondary)'; }
-            else if (pct >= 60) { msg = '👍 Good start. Review the highlighted topics above.'; color = 'var(--warning, #f59e0b)'; }
-            else { msg = '📚 Worth another pass through the material — check the answers below.'; color = 'var(--danger, #ec4899)'; }
+            else if (pct >= 80) { msg = '🎉 Great work — you know Kiro Crew well. Review any items below.'; color = 'var(--secondary)'; }
+            else if (pct >= 60) { msg = '👍 Good start. Read the detailed explanations below for the ones you missed.'; color = '#f59e0b'; }
+            else { msg = '📚 Worth another pass — each missed item below has the correct answer, why, and a doc link.'; color = '#ec4899'; }
             scoreEl.style.color = color;
             msgEl.textContent = msg;
             document.getElementById('quiz-details').innerHTML = details;
