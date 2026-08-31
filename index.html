@@ -579,6 +579,7 @@
                     <li><a href="#advanced">Advanced</a></li>
                     <li><a href="#use-cases">Use Cases</a></li>
                     <li><a href="#getting-started">Getting Started</a></li>
+                    <li><a href="#quiz">Quiz</a></li>
                 </ul>
             </nav>
         </div>
@@ -1867,6 +1868,122 @@ open http://localhost:5476
                 </div>
             </div>
         </section>
+
+        <!-- Quiz -->
+        <section id="quiz" class="section" style="background: rgba(30, 41, 59, 0.3); margin: 0 -20px; padding: 4rem 20px;">
+            <div class="container">
+                <h2 class="section-title">🧪 Knowledge Check</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Test what you learned. Select one answer per question, then submit to see your score. All answers come from the material above.</p>
+
+                <form id="quiz-form">
+                    <!-- Q1 -->
+                    <div class="card" style="margin-bottom:1.5rem;">
+                        <p><strong>1.</strong> What billing model does Kiro Crew use?</p>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q1" value="a"> AWS Bedrock pay-per-use</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q1" value="b"> Kiro subscription credits shared across all surfaces</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q1" value="c"> Free with any AWS account</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q1" value="d"> Separate subscription from Kiro IDE</label>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="card" style="margin-bottom:1.5rem;">
+                        <p><strong>2.</strong> How many independent memory layers does Kiro Crew have?</p>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q2" value="a"> 3</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q2" value="b"> 4</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q2" value="c"> 6</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q2" value="d"> 8</label>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="card" style="margin-bottom:1.5rem;">
+                        <p><strong>3.</strong> How many concurrent subagents can Kiro Crew run (auto-sized)?</p>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q3" value="a"> Exactly 11</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q3" value="b"> 3–32, depending on machine resources</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q3" value="c"> Unlimited</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q3" value="d"> 1 at a time</label>
+                    </div>
+
+                    <!-- Q4 -->
+                    <div class="card" style="margin-bottom:1.5rem;">
+                        <p><strong>4.</strong> Which scheduling mode is best for reacting to changes (e.g. stale PRs)?</p>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q4" value="a"> Cron jobs</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q4" value="b"> Heartbeats</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q4" value="c"> Webhooks</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q4" value="d"> Task Runner</label>
+                    </div>
+
+                    <!-- Q5 -->
+                    <div class="card" style="margin-bottom:1.5rem;">
+                        <p><strong>5.</strong> What is the architecture stack of Kiro Crew (correct order)?</p>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q5" value="a"> User → AWS Bedrock → kiro-cli → Gateway</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q5" value="b"> User → Gateway (local) → kiro-cli (ACP) → Kiro Model Services (cloud)</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q5" value="c"> User → kiro-cli → Gateway → OpenAI API</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q5" value="d"> User → Docker → Bedrock → Gateway</label>
+                    </div>
+
+                    <!-- Q6 -->
+                    <div class="card" style="margin-bottom:1.5rem;">
+                        <p><strong>6.</strong> How many layers does the security defense-in-depth pipeline have?</p>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q6" value="a"> 4</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q6" value="b"> 6</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q6" value="c"> 8</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q6" value="d"> 12</label>
+                    </div>
+
+                    <!-- Q7 -->
+                    <div class="card" style="margin-bottom:1.5rem;">
+                        <p><strong>7.</strong> In memory conflict resolution, which source has the highest priority?</p>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q7" value="a"> Recent history</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q7" value="b"> Semantic memory (LLM writes)</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q7" value="c"> Lessons (user-explicit, confidence 1.0)</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q7" value="d"> Preferences</label>
+                    </div>
+
+                    <!-- Q8 -->
+                    <div class="card" style="margin-bottom:1.5rem;">
+                        <p><strong>8.</strong> What is the default sandbox mode?</p>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q8" value="a"> strict</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q8" value="b"> off</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q8" value="c"> auto</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q8" value="d"> docker</label>
+                    </div>
+
+                    <!-- Q9 -->
+                    <div class="card" style="margin-bottom:1.5rem;">
+                        <p><strong>9.</strong> What happens when you run <code>kirocrew snapshot</code>?</p>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q9" value="a"> Backs up memory, workspace, crons, config, skills, notifications into one portable file</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q9" value="b"> Restarts the gateway</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q9" value="c"> Deploys the dashboard to AWS</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q9" value="d"> Clears all memory layers</label>
+                    </div>
+
+                    <!-- Q10 -->
+                    <div class="card" style="margin-bottom:1.5rem;">
+                        <p><strong>10.</strong> Which of the following is NOT a Crew-specific feature (i.e. it's available in IDE/CLI too)?</p>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q10" value="a"> Persistent memory (6 layers)</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q10" value="b"> Real-time interactive coding assistance</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q10" value="c"> Scheduled cron jobs</label>
+                        <label style="display:block; padding:0.4rem 0; cursor:pointer;"><input type="radio" name="q10" value="d"> Multi-instance management via SSH tunnels</label>
+                    </div>
+
+                    <button type="button" onclick="submitQuiz()" style="background: var(--primary); color: white; border: none; padding: 1rem 3rem; border-radius: 8px; font-size: 1.1rem; cursor: pointer; display: block; margin: 2rem auto 0; transition: all 0.3s ease;">
+                        Submit Answers
+                    </button>
+                </form>
+
+                <!-- Results -->
+                <div id="quiz-results" style="display:none; margin-top:2rem;">
+                    <div class="card" style="text-align:center; border-color: var(--primary);">
+                        <h3 id="quiz-score" style="font-size:2rem; margin-bottom:1rem;"></h3>
+                        <p id="quiz-message" style="font-size:1.1rem; color: var(--text-secondary);"></p>
+                        <div id="quiz-details" style="margin-top:1.5rem; text-align:left;"></div>
+                        <button type="button" onclick="resetQuiz()" style="background: var(--secondary); color: white; border: none; padding: 0.75rem 2rem; border-radius: 8px; font-size: 1rem; cursor: pointer; margin-top: 1.5rem;">
+                            Try Again
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="footer">
@@ -1915,6 +2032,66 @@ open http://localhost:5476
                 }
             });
         });
+
+        // ---- Quiz ----
+        const QUIZ_ANSWERS = { q1:'b', q2:'c', q3:'b', q4:'b', q5:'b', q6:'c', q7:'c', q8:'c', q9:'a', q10:'b' };
+        const QUIZ_EXPLAIN = {
+            q1: 'Kiro Crew uses Kiro subscription credits, shared across all surfaces (not AWS Bedrock).',
+            q2: 'Six independent memory layers: Preferences, Projects, Recent History, Semantic, Episodic, Lessons.',
+            q3: '3–32 concurrent subagents, auto-sized to machine resources (not a fixed 11).',
+            q4: 'Heartbeats are reactive — they only surface when something changes.',
+            q5: 'User → Gateway (local :5476) → kiro-cli (ACP) → Kiro Model Services (cloud).',
+            q6: 'The security pipeline has 8 layers (owner lock → … → output redaction).',
+            q7: 'Lessons (user-explicit, confidence 1.0) win — injected as "ALWAYS follow these".',
+            q8: 'The default sandbox mode is "auto".',
+            q9: 'snapshot backs up memory, workspace, crons, config, skills, and notifications.',
+            q10: 'Real-time interactive coding is the IDE/CLI strength; the others are Crew-specific.'
+        };
+        const QUIZ_TOTAL = Object.keys(QUIZ_ANSWERS).length;
+
+        function submitQuiz() {
+            let score = 0;
+            let unanswered = 0;
+            let details = '';
+            for (const q in QUIZ_ANSWERS) {
+                const sel = document.querySelector('input[name="' + q + '"]:checked');
+                const num = q.replace('q', '');
+                if (!sel) {
+                    unanswered++;
+                    details += '<p style="padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.05);">⚪ <strong>Q' + num + '</strong> — not answered. ' + QUIZ_EXPLAIN[q] + '</p>';
+                    continue;
+                }
+                if (sel.value === QUIZ_ANSWERS[q]) {
+                    score++;
+                    details += '<p style="padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.05);">✅ <strong>Q' + num + '</strong> — correct.</p>';
+                } else {
+                    details += '<p style="padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.05);">❌ <strong>Q' + num + '</strong> — ' + QUIZ_EXPLAIN[q] + '</p>';
+                }
+            }
+            if (unanswered > 0 && !confirm(unanswered + ' question(s) are unanswered and will be marked wrong. Submit anyway?')) {
+                return;
+            }
+            const pct = Math.round((score / QUIZ_TOTAL) * 100);
+            const scoreEl = document.getElementById('quiz-score');
+            const msgEl = document.getElementById('quiz-message');
+            scoreEl.textContent = 'Score: ' + score + ' / ' + QUIZ_TOTAL + '  (' + pct + '%)';
+            let msg, color;
+            if (pct === 100) { msg = '🏆 Perfect! You have mastered Kiro Crew.'; color = 'var(--secondary)'; }
+            else if (pct >= 80) { msg = '🎉 Great work — you know Kiro Crew well.'; color = 'var(--secondary)'; }
+            else if (pct >= 60) { msg = '👍 Good start. Review the highlighted topics above.'; color = 'var(--warning, #f59e0b)'; }
+            else { msg = '📚 Worth another pass through the material — check the answers below.'; color = 'var(--danger, #ec4899)'; }
+            scoreEl.style.color = color;
+            msgEl.textContent = msg;
+            document.getElementById('quiz-details').innerHTML = details;
+            document.getElementById('quiz-results').style.display = 'block';
+            document.getElementById('quiz-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function resetQuiz() {
+            document.getElementById('quiz-form').reset();
+            document.getElementById('quiz-results').style.display = 'none';
+            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     </script>
 </body>
 </html>
