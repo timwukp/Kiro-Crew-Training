@@ -53,12 +53,12 @@ A matching 60-minute slide deck was produced from the same verified content, but
 - Interactive walkthrough in HTML site
 
 **0:40-0:55** - Use Cases & Demo
-- 4 real-world examples (slides 25-28)
+- 4 real-world examples (Enterprise Use Cases section)
 - Live demo in Kiro Crew dashboard
 - Show actual subagent spawning, cron setup
 
 **0:55-1:00** - Q&A
-- Questions and next steps (slides 33-35)
+- Questions and next steps
 
 ---
 
