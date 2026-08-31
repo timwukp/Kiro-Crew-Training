@@ -1,6 +1,10 @@
-# Kiro Crew Training Materials (Updated)
+# Kiro Crew Training Materials
 
-60-minute comprehensive training on Kiro Crew - **accurate as of August 2026**
+**🌐 Live site: [timwukp.github.io/Kiro-Crew-Training](https://timwukp.github.io/Kiro-Crew-Training/)** — open it in any browser, no setup needed.
+
+60-minute comprehensive training on Kiro Crew — fully verified against the official docs at [kiro.dev/docs/crew](https://kiro.dev/docs/crew/) (verified 2026-08-31).
+
+> The interactive HTML site (`index.html`) is published via GitHub Pages at the link above. It is also viewable locally (see below), and a matching 60-minute PowerPoint deck is in `kiro-crew-training.pptx`.
 
 ⚠️ **IMPORTANT**: This version corrects major errors in the original material:
 - ✅ Kiro Crew uses Kiro subscription credits (NOT AWS Bedrock)
