@@ -576,6 +576,7 @@
                     <li><a href="#intro">Introduction</a></li>
                     <li><a href="#why">Why Crew</a></li>
                     <li><a href="#features">Features</a></li>
+                    <li><a href="#advanced">Advanced</a></li>
                     <li><a href="#use-cases">Use Cases</a></li>
                     <li><a href="#getting-started">Getting Started</a></li>
                 </ul>
@@ -1209,6 +1210,181 @@ curl -X POST http://localhost:5476/api/hooks/agent \
                         <p><a href="https://kiro.dev/docs/crew/features/knowledge/" target="_blank" class="reference-link">kiro.dev/docs/crew/features/knowledge/</a></p>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Advanced & Enterprise Topics -->
+        <section id="advanced" class="section">
+            <div class="container">
+                <h2 class="section-title">
+                    Advanced &amp; Enterprise Topics
+                    <span class="verification-badge">✓ Verified from Official Docs (2026-08-31)</span>
+                </h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">These sections cover the full breadth of <a href="https://kiro.dev/docs/crew/" target="_blank" class="reference-link">kiro.dev/docs/crew/</a> beyond the core features above — the material enterprise teams need for secure, always-on deployment.</p>
+
+                <!-- Security -->
+                <div class="card" style="margin-bottom:2rem;">
+                    <h3>🔒 Security (8-Layer Defense-in-Depth)</h3>
+                    <p>Every tool call passes through independent layers enforced at the runtime boundary — not by prompt instructions. Order:</p>
+                    <ol style="line-height:1.9;">
+                        <li><strong>Owner lock</strong> — unauthorized channel users rejected before a session</li>
+                        <li><strong>Denied commands</strong> — 137 patterns block destructive ops (before approval)</li>
+                        <li><strong>Governance ceiling</strong> — Policy ∩ Profile (tightest-wins), cannot be loosened</li>
+                        <li><strong>Sensitive path blocking</strong> — credential dirs/files inaccessible</li>
+                        <li><strong>Tool approval</strong> — interactive / trust / Autopilot (only after deny checks)</li>
+                        <li><strong>Input validation</strong> — MCP schemas, type/length checks, unicode normalization</li>
+                        <li><strong>OS sandbox</strong> — Linux namespaces or macOS Seatbelt</li>
+                        <li><strong>Output redaction</strong> — credential patterns scrubbed from every response</li>
+                    </ol>
+                    <p style="margin-top:0.5rem;">SEL audit records every decision (cross-cutting, not a gate).</p>
+                    <div style="margin-top:1rem;">
+                        <p><strong>Sandbox modes</strong> (<code>agent.sandbox</code>): <code>auto</code> (default, hides .gnupg/.gcloud/.azure/.docker; allows .aws/.ssh/.kube) · <code>strict</code> (hides all incl. .aws/.ssh/.kube) · <code>off</code>. Windows has no OS-level sandbox layer; all other protections still apply.</p>
+                        <p style="margin-top:0.5rem;"><strong>Tool approval</strong>: Interactive (default) · Trust command · Trust tool · Autopilot. Denied commands &amp; sensitive-path blocks are never bypassed — even in Autopilot.</p>
+                        <p style="margin-top:0.5rem;"><strong>Denied commands</strong> (137 built-in) e.g. <code>rm -rf /</code>, push to protected branches, <code>cat ~/.aws/credentials</code>, <code>curl 169.254.169.254</code>, <code>DROP TABLE</code>. Enforced at Crew's tool gate — editing a kiro-cli agent config cannot weaken them.</p>
+                    </div>
+                    <div class="code-block" style="margin-top:1rem;"><code><span class="code-comment"># Governance & audit</span>
+kirocrew policy show | validate | explain
+kirocrew security events | audit | verify</code></div>
+                    <div class="info-box" style="margin-top:1rem;"><h4>📚 Source</h4><p><a href="https://kiro.dev/docs/crew/security/" target="_blank" class="reference-link">kiro.dev/docs/crew/security/</a></p></div>
+                </div>
+
+                <!-- Running 24/7 -->
+                <div class="card" style="margin-bottom:2rem;">
+                    <h3>🖥️ Running 24/7</h3>
+                    <p>Four deployment patterns so the Slack bot, cron jobs, and task runner keep working while you're away.</p>
+                    <p style="margin-top:0.5rem;"><strong>Local service</strong> (systemd on Linux / launchd on macOS) — survives SSH disconnect, auto-restarts, auto-starts on boot; runs as your user (not root); sudo only once to write the unit file.</p>
+                    <div class="code-block" style="margin-top:0.5rem;"><code>kirocrew service install | status | uninstall
+kirocrew logs -f
+kirocrew restart</code></div>
+                    <p style="margin-top:1rem;"><strong>Docker</strong> (multi-arch GHCR image) — first run needs <code>kiro-cli login</code> + <code>kirocrew token</code>; tags stable/insider/nightly/pinned; SLSA provenance; sandbox probes fail-closed.</p>
+                    <div class="code-block" style="margin-top:0.5rem;"><code>docker run -d --name kirocrew \
+  -p 127.0.0.1:5476:5476 \
+  -v kirocrew-home:/home/kirocrew \
+  ghcr.io/kirodotdev/kirocrew:stable</code></div>
+                    <p style="margin-top:1rem;"><strong>Remote host</strong> — modern Linux, ~10 GB RAM (16 GB comfortable), x86_64/arm64, Node 20+ for slack-mcp. Access the loopback dashboard over SSH:</p>
+                    <div class="code-block" style="margin-top:0.5rem;"><code>ssh -L 5476:localhost:5476 user@your-host
+<span class="code-comment"># or ~/.ssh/config: LocalForward 5476 localhost:5476</span></code></div>
+                    <p style="margin-top:1rem;"><strong>Syncing state</strong>: memory dirs + SQLite DBs <em>including WAL files</em> (<code>memory.db-wal</code>, <code>-shm</code>), config, tasks, skills, crons. Do NOT sync host secrets (<code>.env</code>, <code>.local_secret</code>, <code>sel_hmac.key</code>). Use <code>scripts/sync-to-remote.sh</code>.</p>
+                    <p style="margin-top:1rem;"><strong>Mobile access</strong>: expose port 5476 via Cloudflare Tunnel / ngrok / Tailscale, set <code>dashboard.url</code>, use <code>/kirocrew dashboard</code> for presigned links. Token 1h default (up to 20h); link click window 5 min.</p>
+                    <div class="info-box" style="margin-top:1rem;"><h4>📚 Source</h4><p><a href="https://kiro.dev/docs/crew/running-24-7/" target="_blank" class="reference-link">kiro.dev/docs/crew/running-24-7/</a></p></div>
+                </div>
+
+                <!-- Interfaces -->
+                <div class="card" style="margin-bottom:2rem;">
+                    <h3>🔌 Interfaces (One Gateway, Many Surfaces)</h3>
+                    <p>Work from Mac app, web dashboard, or CLI, then continue through Slack, Discord, Telegram, Teams, Webex, WeCom, or WeChat. A dashboard tab and a Slack thread are <strong>independent sessions</strong> but <strong>share memory, skills, lessons, and crons</strong>. Channels connect <em>outbound</em> — no need to expose the dashboard port.</p>
+                    <ul class="feature-list" style="margin-top:0.5rem;">
+                        <li><strong>Web dashboard</strong> — React SPA at <code>localhost:5476</code>; the primary interface (artifact library, memory graph, MCP panel, App Store, task runner UI live only here)</li>
+                        <li><strong>Cross-surface sync</strong> — 💬 links a dashboard tab to a Slack thread (bidirectional); <code>sessions</code> command + ▶️ Resume on any surface</li>
+                        <li><strong>Ports</strong> — 5476 loopback-only by default; reverse proxy + TLS or SSH tunnel for remote</li>
+                    </ul>
+                    <div class="code-block" style="margin-top:0.5rem;"><code>kirocrew gateway
+kirocrew token --ttl 2h   <span class="code-comment"># remote login link</span></code></div>
+                    <p style="margin-top:0.5rem;">8 channel setup guides + CLI reference under <code>/docs/crew/interfaces/</code>.</p>
+                    <div class="info-box" style="margin-top:1rem;"><h4>📚 Source</h4><p><a href="https://kiro.dev/docs/crew/interfaces/" target="_blank" class="reference-link">kiro.dev/docs/crew/interfaces/</a></p></div>
+                </div>
+
+                <!-- Chat -->
+                <div class="card" style="margin-bottom:2rem;">
+                    <h3>💬 Chat</h3>
+                    <p>Send text, a file (<code>@filename</code>), or a voice memo; the agent streams text with live tool calls. Guide via approve/reject, edit &amp; resend, fork, or Autopilot. Each tab is an independent session sharing long-term memory.</p>
+                    <ul class="feature-list" style="margin-top:0.5rem;">
+                        <li><strong>Attach file</strong> — <code>@</code> fuzzy picker · <strong>Image</strong> — drag/paste (vision)</li>
+                        <li><strong>Voice</strong> — mic for streaming STT; speaker for local Piper TTS (fully offline)</li>
+                        <li><strong>Prompt optimizer</strong> — Cmd+Shift+Enter / ✨ rewrites a vague prompt</li>
+                        <li><strong>Autopilot</strong> toggle · <strong>Incognito</strong> (nothing persists) · <strong>Switch models</strong> · <strong>Reasoning effort</strong> per message</li>
+                    </ul>
+                    <p style="margin-top:0.5rem;">Leaf topics: Sessions · Message controls (edit/rewind/regenerate/fork/interrupt) · Prompt optimizer · Voice · Rich output &amp; widgets.</p>
+                    <div class="info-box" style="margin-top:1rem;"><h4>📚 Source</h4><p><a href="https://kiro.dev/docs/crew/chat/" target="_blank" class="reference-link">kiro.dev/docs/crew/chat/</a></p></div>
+                </div>
+
+                <!-- Agent Capabilities -->
+                <div class="card" style="margin-bottom:2rem;">
+                    <h3>🧩 Agent Capabilities (Customization Hub)</h3>
+                    <p>Customize how Crew's agent behaves from the dashboard sidebar:</p>
+                    <ul class="feature-list" style="margin-top:0.5rem;">
+                        <li><strong>Agents</strong> — configs: model, prompt, tools, MCP servers</li>
+                        <li><strong>Agent Templates</strong> — prebuilt configs to start from</li>
+                        <li><strong>Integrations (MCP)</strong> — add external tools/services via MCP servers</li>
+                        <li><strong>Skills</strong> — on-demand knowledge files teaching workflows/domain expertise</li>
+                        <li><strong>Steering</strong> — workspace-level rules every session inherits automatically</li>
+                        <li><strong>Hooks</strong> — automate reactions to events (run scripts / inject context)</li>
+                        <li><strong>Prompts</strong> — manage/customize the system prompts shaping behavior</li>
+                    </ul>
+                    <div class="info-box" style="margin-top:1rem;"><h4>📚 Source</h4><p><a href="https://kiro.dev/docs/crew/capabilities/" target="_blank" class="reference-link">kiro.dev/docs/crew/capabilities/</a></p></div>
+                </div>
+
+                <!-- Configuration -->
+                <div class="card" style="margin-bottom:2rem;">
+                    <h3>⚙️ Configuration</h3>
+                    <p>Most config is in the dashboard <strong>Settings</strong> panel; changes take effect immediately. Sections: Overview, Imports, Chat, Display, Voice, Notifications, Shortcuts, Skills, Channels, Browser, Computer Use, Instances, Security, Developer, About.</p>
+                    <div class="code-block" style="margin-top:0.5rem;"><code>kirocrew config get [key]
+kirocrew config set dashboard.bot_name "X"   <span class="code-comment"># auto-restarts pool</span>
+kirocrew config edit</code></div>
+                    <ul class="feature-list" style="margin-top:0.5rem;">
+                        <li>Config file: <code>~/.kiro/crew/config.json</code> (standard JSON, missing keys → defaults)</li>
+                        <li>Themes: 14-theme system (dark/light variants, custom + import) via Settings → Display</li>
+                        <li>Channel credentials: <code>~/.kiro/crew/.env</code> (mode 600), not in config.json</li>
+                        <li>Env vars: <code>KIROCREW_HOME</code> (~/.kiro/crew), <code>KIROCREW_PORT</code> (5476) — set before starting gateway</li>
+                    </ul>
+                    <div class="info-box" style="margin-top:1rem;"><h4>📚 Source</h4><p><a href="https://kiro.dev/docs/crew/configuration/" target="_blank" class="reference-link">kiro.dev/docs/crew/configuration/</a></p></div>
+                </div>
+
+                <!-- Multi-instance -->
+                <div class="card" style="margin-bottom:2rem;">
+                    <h3>🖧 Multi-instance</h3>
+                    <p>Drive several remote Crew hosts (dev boxes, EC2, home servers) from one hub gateway via SSH tunnels + short-lived tokens, embedded as dashboard tabs. <strong>Opt-in, off by default.</strong></p>
+                    <div class="code-block" style="margin-top:0.5rem;"><code>kirocrew config set instances.enabled true
+kirocrew restart</code></div>
+                    <ul class="feature-list" style="margin-top:0.5rem;">
+                        <li>Warm set cap 5 (MRU, LRU eviction); health probe every 30s; 2-tier self-heal (≤8 attempts); token refresh at 0.8 TTL (~20h cap)</li>
+                        <li>Add: Name · SSH host/alias · remote port 7777 · token TTL 20h (identity file / non-22 / bastion / SSM via <code>~/.ssh/config</code>)</li>
+                        <li>Security: <code>_guard()</code> deny-by-default, owner-only, feature-gated, SEL-audited; loopback-only forwards; argv-list ssh (no shell injection)</li>
+                    </ul>
+                    <div class="info-box" style="margin-top:1rem;"><h4>📚 Source</h4><p><a href="https://kiro.dev/docs/crew/features/multi-instance/" target="_blank" class="reference-link">kiro.dev/docs/crew/features/multi-instance/</a></p></div>
+                </div>
+
+                <!-- Snapshot & Restore -->
+                <div class="card" style="margin-bottom:2rem;">
+                    <h3>💾 Snapshot &amp; Restore</h3>
+                    <p>Back up everything Crew knows — memory, crons, skills, config, notifications — into one portable file.</p>
+                    <div class="code-block" style="margin-top:0.5rem;"><code>kirocrew snapshot [dir] --keep 3 | --list
+kirocrew restore snapshot.tar.gz [--components memory,crons] [--dry-run]</code></div>
+                    <ul class="feature-list" style="margin-top:0.5rem;">
+                        <li>Includes: Memory (episodic/semantic/FTS), Workspace (prefs/projects/history/knowledge), Crons, Config, Skills, Notifications</li>
+                        <li>Restore modes auto-detected: <strong>replace</strong> (empty target) vs <strong>merge</strong> (existing data)</li>
+                        <li>Daily auto snapshot at <strong>08:00 UTC</strong>, keeps last 7</li>
+                        <li>⚠️ Snapshots contain security keys — treat like credentials</li>
+                        <li>NOT covered: kiro-cli creds, AWS creds, channel app definitions, app code (re-install via App Store)</li>
+                    </ul>
+                    <div class="info-box" style="margin-top:1rem;"><h4>📚 Source</h4><p><a href="https://kiro.dev/docs/crew/features/snapshot/" target="_blank" class="reference-link">kiro.dev/docs/crew/features/snapshot/</a></p></div>
+                </div>
+
+                <!-- Apps / App Kit -->
+                <div class="card" style="margin-bottom:2rem;">
+                    <h3>📦 Apps / App Kit</h3>
+                    <p>The App Kit turns Crew into a platform. An app can contribute agents, skills, MCP servers, cron jobs, UI pages, backend processes, and gateway hooks. <strong>Third-party apps are disabled by default</strong> (enable in Settings → Security).</p>
+                    <ul class="feature-list" style="margin-top:0.5rem;">
+                        <li>Install from built-in App Store (curated <code>app-registry.json</code>, PR to add); or federated external registries (user opt-in)</li>
+                        <li>Lifecycle modes: gateway-managed (default), app-managed (self-managed apps), locked (built-in)</li>
+                        <li>Dev mode: <code>kirocrew app dev &lt;name&gt;</code> — live reload via <code>app_reload</code> WS event</li>
+                        <li>Permissions: declared in <code>app.json</code>; only <code>permissions.api</code> enforced today (others advisory)</li>
+                        <li>Backends reverse-proxied at <code>/apps/{name}/api/*</code>, signed <code>X-Crew-Proxy</code> HMAC</li>
+                    </ul>
+                    <p style="margin-top:0.5rem;">Leaf pages: Build your first app · Manifest reference · SDK/API reference · Publishing &amp; guidelines.</p>
+                    <div class="info-box" style="margin-top:1rem;"><h4>📚 Source</h4><p><a href="https://kiro.dev/docs/crew/apps/" target="_blank" class="reference-link">kiro.dev/docs/crew/apps/</a></p></div>
+                </div>
+
+                <!-- Troubleshooting -->
+                <div class="card" style="margin-bottom:2rem;">
+                    <h3>🩺 Troubleshooting</h3>
+                    <p>Start every problem with a health check — it reports kiro-cli discovery, agent auth, embeddings, Slack tokens, config validity, and MCP server probes.</p>
+                    <div class="code-block" style="margin-top:0.5rem;"><code>kirocrew doctor [--verbose]
+kirocrew logs -f</code></div>
+                    <p style="margin-top:0.5rem;">Documented categories: install/setup · agent kiro-cli (<code>AcpTimeoutError</code>, <code>AcpProcessDied</code>) · memory/embeddings · Slack · Discord · MCP servers · dashboard 403 · sessions · task runner · subagents · cron · config · snapshot · multi-instance · voice · artifact deploy.</p>
+                    <div class="info-box" style="margin-top:1rem;"><h4>📚 Source</h4><p><a href="https://kiro.dev/docs/crew/troubleshooting/" target="_blank" class="reference-link">kiro.dev/docs/crew/troubleshooting/</a></p></div>
+                </div>
+
             </div>
         </section>
 

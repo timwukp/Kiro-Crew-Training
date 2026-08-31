@@ -463,6 +463,149 @@ def create_presentation():
         verification_status="verified"
     )
     
+    # Section 4.5: Advanced & Enterprise Topics
+    add_section_divider(prs, "Advanced & Enterprise Topics", "Full coverage of docs/crew/")
+
+    add_content_slide(prs,
+        "Security: 8-Layer Defense-in-Depth",
+        [
+            "Every tool call passes independent layers (runtime-enforced):",
+            "1 Owner lock  2 Denied commands (137)  3 Governance ceiling",
+            "4 Sensitive-path block  5 Tool approval  6 Input validation",
+            "7 OS sandbox  8 Output redaction  (+ SEL audit, cross-cutting)",
+            "",
+            "Sandbox: auto (default) / strict / off; no OS layer on Windows",
+            "Approval: Interactive / Trust command / Trust tool / Autopilot",
+            "Denied cmds enforced at Crew's gate, not agent config",
+            "kirocrew policy show|validate|explain; security events|audit|verify",
+        ],
+    )
+
+    add_content_slide(prs,
+        "Running 24/7",
+        [
+            "Local service: systemd/launchd; runs as user, sudo once for unit",
+            "  kirocrew service install | logs -f | restart",
+            "Docker: multi-arch GHCR; kiro-cli login + kirocrew token; SLSA",
+            "  docker run -d -p 127.0.0.1:5476:5476 -v kirocrew-home:...",
+            "Remote host: modern Linux, ~10GB RAM, Node 20+ (slack-mcp)",
+            "  ssh -L 5476:localhost:5476 user@host",
+            "Sync state: memory + SQLite incl WAL; NOT .env/.local_secret",
+            "Mobile: Cloudflare/ngrok/Tailscale + dashboard.url; token 1h/20h",
+        ],
+    )
+
+    add_content_slide(prs,
+        "Interfaces: One Gateway, Many Surfaces",
+        [
+            "Mac app / web dashboard / CLI + Slack/Discord/Telegram/",
+            "Teams/Webex/WeCom/WeChat channels",
+            "Independent sessions, SHARED memory/skills/lessons/crons",
+            "Channels connect outbound - no need to expose dashboard port",
+            "",
+            "Dashboard = React SPA localhost:5476 (primary interface)",
+            "Cross-surface: dashboard<->Slack sync, resume sessions",
+            "5476 loopback-only default; reverse proxy+TLS or SSH tunnel",
+        ],
+    )
+
+    add_content_slide(prs,
+        "Chat",
+        [
+            "Send text / @file / voice; streaming replies with live tool calls",
+            "Guide: approve/reject, edit & resend, fork, Autopilot",
+            "Each tab = independent session sharing long-term memory",
+            "",
+            "@ file picker; drag/paste image (vision); mic STT; Piper TTS",
+            "Prompt optimizer (Cmd+Shift+Enter); incognito; switch models;",
+            "reasoning effort per message",
+            "Leaves: Sessions, Message controls, Optimizer, Voice, Widgets",
+        ],
+    )
+
+    add_content_slide(prs,
+        "Agent Capabilities (Customization Hub)",
+        [
+            "Agents - model/prompt/tools/MCP server config",
+            "Agent Templates - prebuilt configs to customize",
+            "Integrations (MCP) - add external tools/services",
+            "Skills - on-demand knowledge files teaching workflows",
+            "Steering - workspace-level rules every session inherits",
+            "Hooks - automate reactions to events (scripts/context)",
+            "Prompts - customize the system prompts shaping behavior",
+        ],
+    )
+
+    add_content_slide(prs,
+        "Configuration",
+        [
+            "Settings panel: Overview/Imports/Chat/Display/Voice/",
+            "Notifications/Shortcuts/Skills/Channels/Browser/Computer Use/",
+            "Instances/Security/Developer/About - changes apply immediately",
+            "",
+            "kirocrew config get|set|edit (set auto-restarts pool)",
+            "config.json (JSON, missing keys -> defaults); 14 themes",
+            "Channel creds in ~/.kiro/crew/.env (mode 600)",
+            "Env: KIROCREW_HOME (~/.kiro/crew), KIROCREW_PORT (5476)",
+        ],
+    )
+
+    add_content_slide(prs,
+        "Multi-instance",
+        [
+            "Drive multiple remote Crew hosts from one hub via SSH tunnels",
+            "Opt-in, off by default:",
+            "  kirocrew config set instances.enabled true && kirocrew restart",
+            "",
+            "Warm set cap 5 (LRU); health probe 30s; 2-tier self-heal (<=8)",
+            "Add: SSH host/alias, remote port 7777, token TTL 20h",
+            "Security: deny-by-default, owner-only, loopback forwards,",
+            "argv-list ssh (no shell injection), SEL-audited",
+        ],
+    )
+
+    add_content_slide(prs,
+        "Snapshot & Restore",
+        [
+            "kirocrew snapshot [dir] --keep N | --list",
+            "kirocrew restore snap.tar.gz [--components ...] [--dry-run]",
+            "",
+            "Includes: Memory, Workspace, Crons, Config, Skills, Notifications",
+            "Restore modes: replace (empty) vs merge (existing) - auto-detected",
+            "Daily auto snapshot 08:00 UTC, keeps 7",
+            "Contains security keys - treat like credentials",
+            "NOT covered: kiro-cli/AWS creds, channel defs, app code",
+        ],
+    )
+
+    add_content_slide(prs,
+        "Apps / App Kit",
+        [
+            "Apps contribute: agents, skills, MCP servers, crons, UI pages,",
+            "backend processes, gateway hooks",
+            "Third-party apps DISABLED by default (Settings -> Security)",
+            "",
+            "Install from App Store (curated registry, PR to add) or",
+            "federated external registries (opt-in)",
+            "Lifecycle: gateway-managed / app-managed / locked",
+            "Dev: kirocrew app dev <name>; only permissions.api enforced",
+        ],
+    )
+
+    add_content_slide(prs,
+        "Troubleshooting",
+        [
+            "Start with a health check:",
+            "  kirocrew doctor [--verbose]   /   kirocrew logs -f",
+            "Reports: kiro-cli, auth, embeddings, Slack, config, MCP",
+            "",
+            "Categories: install/setup, agent (AcpTimeoutError/",
+            "AcpProcessDied), memory/embeddings, Slack, Discord, MCP,",
+            "dashboard 403, sessions, task runner, subagents, cron,",
+            "config, snapshot, multi-instance, voice, artifact deploy",
+        ],
+    )
+
     # Section 5: Use Cases
     add_section_divider(prs, "Part 4: Use Cases", "Enterprise integration examples")
     
