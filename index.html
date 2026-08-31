@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiro Crew Training - Personal AI Agent Platform</title>
+    <meta name="description" content="Enterprise training for Kiro Crew - Persistent, self-learning AI agent with scheduling, memory, and autonomous operation">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #7c3aed;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --verified: #10b981;
+            --unverified: #f59e0b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a2642 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 0 3rem;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(37, 99, 235, 0.2);
+            border: 1px solid var(--primary);
+            border-radius: 2rem;
+            color: var(--primary);
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+        }
+        
+        .verification-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--verified);
+            border-radius: 1rem;
+            color: var(--verified);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .verification-badge.unverified {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: var(--unverified);
+            color: var(--unverified);
+        }
+        
+        .section {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .card p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .card li {
+            color: var(--text-secondary);
+            padding: 0.25rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+        
+        .code-block {
+            background: #0d1117;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .code-block code {
+            color: #58a6ff;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .code-comment {
+            color: #8b949e;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid var(--bg-dark);
+        }
+        
+        .timeline-item h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .comparison-table th {
+            background: rgba(37, 99, 235, 0.2);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+        
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .architecture-diagram {
+            background: var(--bg-card);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .arch-layer {
+            background: rgba(37, 99, 235, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            position: relative;
+            text-align: center;
+        }
+        
+        .arch-layer-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .arch-layer-detail {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .arch-arrow {
+            text-align: center;
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+        
+        .highlight-box {
+            background: rgba(124, 58, 237, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0.5rem;
+        }
+        
+        .info-box {
+            background: rgba(6, 182, 212, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0.5rem;
+        }
+        
+        .warning-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0.5rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 1rem;
+            color: var(--success);
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tag.warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+        
+        .tag.primary {
+            background: rgba(37, 99, 235, 0.2);
+            color: var(--primary);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+        
+        .footer p {
+            color: var(--text-secondary);
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .comparison-table {
+                font-size: 0.875rem;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.75rem 0.5rem;
+            }
+            
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .tab-container {
+            margin: 2rem 0;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            font-size: 1rem;
+        }
+        
+        .tab-button.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .metric {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .metric-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .metric-label {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .reference-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-top: 0.5rem;
+        }
+        
+        .reference-link:hover {
+            text-decoration: underline;
+        }
+        
+        .memory-layer {
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 0.5rem 0;
+        }
+        
+        .memory-layer-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .memory-layer-capacity {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+        
+        .memory-layer-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">🚀 Kiro Crew Training</div>
+                <ul class="nav-links">
+                    <li><a href="#intro">Introduction</a></li>
+                    <li><a href="#why">Why Crew</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#use-cases">Use Cases</a></li>
+                    <li><a href="#getting-started">Getting Started</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="badge">✅ Facts verified against official kiro.dev docs (2026-08-31)</div>
+            <h1>Kiro Crew Training</h1>
+            <p>Personal AI Agent Platform: Persistent • Self-Learning • Self-Evolving • Autonomous</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="#getting-started" class="btn">Get Started</a>
+                <a href="https://kiro.dev/docs/crew/" target="_blank" class="btn btn-secondary">Official Docs →</a>
+            </div>
+        </section>
+
+        <!-- Introduction Section -->
+        <section id="intro" class="section">
+            <h2 class="section-title">
+                What is Kiro Crew?
+                <span class="verification-badge">✓ Verified</span>
+            </h2>
+            <p class="section-subtitle">Open-source personal AI agent that runs locally or remotely</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">💾</div>
+                    <h3>Persistent</h3>
+                    <p>Sessions, memory, and schedules persist beyond one chat session</p>
+                    <ul>
+                        <li>6-layer memory system</li>
+                        <li>Survives gateway restarts</li>
+                        <li>365-day history retention</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🧠</div>
+                    <h3>Self-Learning</h3>
+                    <p>Your corrections become durable lessons</p>
+                    <ul>
+                        <li>User-taught rules (confidence 1.0)</li>
+                        <li>Detected patterns</li>
+                        <li>Project context carries across sessions</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🌱</div>
+                    <h3>Self-Evolving</h3>
+                    <p>Repeated patterns can become reusable skills</p>
+                    <ul>
+                        <li>Memory, lessons, skills remain visible</li>
+                        <li>Editable by you</li>
+                        <li>Shareable across team</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🤖</div>
+                    <h3>Autonomous</h3>
+                    <p>24/7 operation without human presence</p>
+                    <ul>
+                        <li>Scheduled jobs (cron)</li>
+                        <li>Reactive monitoring (heartbeats)</li>
+                        <li>External triggers (webhooks)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>📚 Source</h4>
+                <p>All information verified from: <a href="https://kiro.dev/docs/crew/" target="_blank" class="reference-link">kiro.dev/docs/crew/</a></p>
+            </div>
+        </section>
+
+        <!-- Kiro Ecosystem Section -->
+        <section class="section" style="background: rgba(30, 41, 59, 0.3); margin: 0 -20px; padding: 4rem 20px;">
+            <div class="container">
+                <h2 class="section-title">
+                    The Kiro Ecosystem
+                    <span class="verification-badge">✓ Verified</span>
+                </h2>
+                <p class="section-subtitle">"One agent, every surface"</p>
+
+                <div class="highlight-box">
+                    <h3 style="color: var(--secondary); margin-bottom: 1rem;">💡 Key Concept</h3>
+                    <p><strong>Kiro Crew is NOT a separate product.</strong> It's one of multiple surfaces for the same unified Kiro agent harness.</p>
+                    <ul class="feature-list" style="margin-top: 1rem;">
+                        <li>Single subscription covers all surfaces</li>
+                        <li>Shared <code>.kiro/</code> configuration</li>
+                        <li>Unified credit system</li>
+                    </ul>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🖥️ IDE</h3>
+                        <p>Desktop editor integration (VS Code, IntelliJ, etc.)</p>
+                        <span class="tag primary">Interactive</span>
+                    </div>
+
+                    <div class="card">
+                        <h3>⌨️ CLI</h3>
+                        <p>Terminal-native interface</p>
+                        <span class="tag primary">Real-time</span>
+                    </div>
+
+                    <div class="card">
+                        <h3>🌐 Web</h3>
+                        <p>Browser-based access (preview)</p>
+                        <span class="tag primary">Anywhere</span>
+                    </div>
+
+                    <div class="card">
+                        <h3>📱 Mobile</h3>
+                        <p>iOS/Android apps (preview)</p>
+                        <span class="tag primary">On-the-go</span>
+                    </div>
+
+                    <div class="card" style="border: 2px solid var(--secondary);">
+                        <h3>🚀 Crew</h3>
+                        <p><strong>Persistent agent with automation</strong></p>
+                        <span class="tag">24/7 Operation</span>
+                        <span class="tag">Memory</span>
+                        <span class="tag">Scheduling</span>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h4>📚 Source</h4>
+                    <p><a href="https://kiro.dev/docs/" target="_blank" class="reference-link">kiro.dev/docs/</a> - "Your .kiro/ configuration is shared across all of them"</p>
+                    <p><a href="https://kiro.dev/pricing/" target="_blank" class="reference-link">kiro.dev/pricing/</a> - "Kiro subscriptions can be used with Kiro IDE, Kiro CLI, Kiro on the web, Kiro Crew"</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Section -->
+        <section class="section">
+            <h2 class="section-title">
+                Architecture
+                <span class="verification-badge">✓ Verified</span>
+            </h2>
+
+            <div class="architecture-diagram">
+                <div class="arch-layer">
+                    <div class="arch-layer-title">🧑‍💻 User / Interface</div>
+                    <div class="arch-layer-detail">Dashboard • Slack • Discord • Telegram • Teams • CLI</div>
+                </div>
+                
+                <div class="arch-arrow">↓</div>
+                
+                <div class="arch-layer">
+                    <div class="arch-layer-title">🌐 Kiro Crew Gateway</div>
+                    <div class="arch-layer-detail">Local Python server • Port 5476 • API endpoints</div>
+                </div>
+                
+                <div class="arch-arrow">↓ Agent Client Protocol (ACP)</div>
+                
+                <div class="arch-layer">
+                    <div class="arch-layer-title">⚙️ kiro-cli</div>
+                    <div class="arch-layer-detail">Local binary • Authentication • Request routing</div>
+                </div>
+                
+                <div class="arch-arrow">↓ HTTPS</div>
+                
+                <div class="arch-layer">
+                    <div class="arch-layer-title">☁️ Kiro Model Services</div>
+                    <div class="arch-layer-detail">Cloud-hosted • Managed by Kiro • Multi-model support</div>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="card">
+                    <h3>🗄️ Local Data Storage</h3>
+                    <p><strong>Location:</strong> <code>~/.kiro/crew/</code></p>
+                    <ul>
+                        <li><code>config.json</code> - User configuration</li>
+                        <li><code>workspace/memory/</code> - 6-layer memory</li>
+                        <li><code>conversations/</code> - Session logs</li>
+                        <li><code>crons.json</code> - Scheduled jobs</li>
+                        <li><code>knowledge/</code> - Ingested documents</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔐 Authentication</h3>
+                    <p><strong>First launch:</strong> device-code sign-in (per installation docs)</p>
+                    <ul>
+                        <li>Account can be created with AWS Builder ID or social login (per pricing page)</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>✅ No AWS CLI needed</strong></p>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Gateway authenticates with kiro-cli directly</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ CRITICAL: NO AWS Bedrock</h4>
+                <p><strong>Common misconception:</strong> Kiro Crew does NOT use AWS Bedrock or require AWS configuration.</p>
+                <p style="margin-top: 0.5rem;">✅ <strong>Correct:</strong> Uses Kiro's own model services via kiro-cli</p>
+            </div>
+
+            <div class="info-box">
+                <h4>📚 Source</h4>
+                <p><a href="https://kiro.dev/docs/crew/installation/" target="_blank" class="reference-link">kiro.dev/docs/crew/installation/</a></p>
+            </div>
+        </section>
+
+        <!-- Why Crew Section -->
+        <section id="why" class="section" style="background: rgba(30, 41, 59, 0.3); margin: 0 -20px; padding: 4rem 20px;">
+            <div class="container">
+                <h2 class="section-title">
+                    Why Kiro Crew? (When You Already Have IDE/CLI)
+                    <span class="verification-badge">✓ Verified</span>
+                </h2>
+                <p class="section-subtitle">Understanding what makes Crew unique</p>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Need</th>
+                            <th style="width: 40%;">IDE / CLI</th>
+                            <th style="width: 40%;">Crew</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Context</strong></td>
+                            <td>Session-based<br><small style="color: var(--text-secondary);">Ends when session ends</small></td>
+                            <td><strong>Persistent</strong><br><small style="color: var(--success);">6-layer memory, 365-day history</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Availability</strong></td>
+                            <td>Requires human at terminal/editor</td>
+                            <td><strong>24/7 autonomous</strong><br><small style="color: var(--success);">Cron, heartbeats, webhooks</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Learning</strong></td>
+                            <td>Per-session only</td>
+                            <td><strong>Durable lessons</strong><br><small style="color: var(--success);">Corrections persist forever</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Parallelization</strong></td>
+                            <td>Single-threaded interaction</td>
+                            <td><strong>3-32 concurrent subagents</strong><br><small style="color: var(--success);">Auto-sized, parallel research</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Access</strong></td>
+                            <td>Local terminal/editor</td>
+                            <td><strong>Multi-channel</strong><br><small style="color: var(--success);">Slack, Discord, Teams, Dashboard</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tasks</strong></td>
+                            <td>Interactive Q&A</td>
+                            <td><strong>Autonomous task runner</strong><br><small style="color: var(--success);">Decompose → execute → test → retry</small></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <h3 style="color: var(--secondary); margin-bottom: 1rem;">🎯 When to Use What</h3>
+                    
+                    <h4 style="color: var(--primary); margin-top: 1.5rem; margin-bottom: 0.5rem;">Use IDE/CLI for:</h4>
+                    <ul class="feature-list">
+                        <li>Real-time coding and debugging</li>
+                        <li>Interactive prototyping</li>
+                        <li>Immediate code generation</li>
+                        <li>Pair programming sessions</li>
+                    </ul>
+
+                    <h4 style="color: var(--primary); margin-top: 1.5rem; margin-bottom: 0.5rem;">Use Crew for:</h4>
+                    <ul class="feature-list">
+                        <li>24/7 monitoring (PR status, CI pipelines, incidents)</li>
+                        <li>Scheduled tasks (nightly audits, reports)</li>
+                        <li>Team access via Slack/Discord</li>
+                        <li>Complex multi-step autonomous tasks</li>
+                        <li>Persistent memory across days/weeks</li>
+                        <li>Parallel investigation (3-32 subagents)</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h4>📚 Source</h4>
+                    <p>Comparison based on documented capabilities:</p>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><a href="https://kiro.dev/docs/crew/" target="_blank" class="reference-link">Crew features</a></li>
+                        <li><a href="https://kiro.dev/docs/crew/features/memory/" target="_blank" class="reference-link">Memory system</a></li>
+                        <li><a href="https://kiro.dev/docs/crew/features/subagents/" target="_blank" class="reference-link">Subagents</a></li>
+                        <li><a href="https://kiro.dev/docs/crew/features/cron/" target="_blank" class="reference-link">Scheduling</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Deep Dive -->
+        <section id="features" class="section">
+            <h2 class="section-title">Core Features Deep Dive</h2>
+
+            <!-- Memory System -->
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button class="tab-button active" onclick="showTab('memory')">💾 Memory System</button>
+                    <button class="tab-button" onclick="showTab('subagents')">🤖 Subagents</button>
+                    <button class="tab-button" onclick="showTab('scheduling')">⏰ Scheduling</button>
+                    <button class="tab-button" onclick="showTab('tasks')">📋 Task Runner</button>
+                    <button class="tab-button" onclick="showTab('artifacts')">📦 Artifacts</button>
+                    <button class="tab-button" onclick="showTab('knowledge')">📚 Knowledge</button>
+                </div>
+
+                <!-- Memory Tab -->
+                <div id="memory" class="tab-content active">
+                    <div class="card">
+                        <h3>
+                            6-Layer Memory System
+                            <span class="verification-badge">✓ Verified</span>
+                        </h3>
+                        <p>All capacity limits verified from official documentation</p>
+
+                        <div class="memory-layer">
+                            <div class="memory-layer-title">1. Preferences</div>
+                            <div class="memory-layer-capacity">Capacity: 4,250 chars</div>
+                            <div class="memory-layer-desc">User habits, tool preferences, communication style. Replaced every 30 messages.</div>
+                        </div>
+
+                        <div class="memory-layer">
+                            <div class="memory-layer-title">2. Projects</div>
+                            <div class="memory-layer-capacity">Capacity: 6,400 chars</div>
+                            <div class="memory-layer-desc">CRs, packages, branches, current status. Replaced every 30 messages.</div>
+                        </div>
+
+                        <div class="memory-layer">
+                            <div class="memory-layer-title">3. Recent History</div>
+                            <div class="memory-layer-capacity">Capacity: 26,600 chars</div>
+                            <div class="memory-layer-desc">
+                                Tiered decay:<br>
+                                • 0-13 days: Full entries<br>
+                                • 14-60 days: First entry per day + count<br>
+                                • 61-180 days: Date + count only<br>
+                                • 181-364 days: Not loaded<br>
+                                • 365+ days: Deleted
+                            </div>
+                        </div>
+
+                        <div class="memory-layer">
+                            <div class="memory-layer-title">4. Semantic Memory</div>
+                            <div class="memory-layer-capacity">Capacity: 12,000 chars</div>
+                            <div class="memory-layer-desc">
+                                Key-value pairs in SQLite. Hybrid search: 0.6×vector + 0.4×keyword. Confidence gating ≥0.8 for LLM writes.
+                            </div>
+                        </div>
+
+                        <div class="memory-layer">
+                            <div class="memory-layer-title">5. Episodic Memory</div>
+                            <div class="memory-layer-capacity">Capacity: 3,000 chars (top-8 results), max 10,000 entries</div>
+                            <div class="memory-layer-desc">
+                                Past event snippets (10-2,000 chars each). Decay scoring: cosine × (0.7 + 0.3×importance) × exp(-0.03×days)
+                            </div>
+                        </div>
+
+                        <div class="memory-layer">
+                            <div class="memory-layer-title">6. Lessons</div>
+                            <div class="memory-layer-capacity">Capacity: 37,250 chars, max 50 lessons</div>
+                            <div class="memory-layer-desc">
+                                User-taught rules (confidence 1.0). Explicit: "remember to always..." or implicit: detected corrections.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+<code><span class="code-comment"># Example: Teaching a lesson</span>
+You: "Always use pytest over unittest"
+
+<span class="code-comment"># Crew saves this as a lesson (confidence 1.0)</span>
+<span class="code-comment"># In future sessions, it will prefer pytest</span>
+</code>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>📚 Source</h4>
+                        <p><a href="https://kiro.dev/docs/crew/features/memory/" target="_blank" class="reference-link">kiro.dev/docs/crew/features/memory/</a></p>
+                    </div>
+                </div>
+
+                <!-- Subagents Tab -->
+                <div id="subagents" class="tab-content">
+                    <div class="card">
+                        <h3>
+                            Subagents (Parallel Background Agents)
+                            <span class="verification-badge">✓ Verified</span>
+                        </h3>
+                        <p>Spawn multiple agents for parallel research and investigation</p>
+
+                        <table class="comparison-table" style="margin-top: 1.5rem;">
+                            <tr>
+                                <th>Property</th>
+                                <th>Value</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Concurrency</strong></td>
+                                <td><strong>3-32 agents</strong> (auto-sized based on machine resources)<br>
+                                    <small style="color: var(--text-secondary);">NOT 11 as commonly misunderstood</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Timeout</strong></td>
+                                <td>30 minutes hard limit</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Stall Detection</strong></td>
+                                <td>~2 minutes no activity = warning</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Context</strong></td>
+                                <td>Isolated sessions with memory injection</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Usage</strong></td>
+                                <td>Just ask in chat - agent decides when to spawn</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="code-block">
+<code><span class="code-comment"># Example: Parallel research</span>
+You: "Research these 3 technologies: Redis, PostgreSQL, MongoDB"
+
+<span class="code-comment"># Crew spawns 3 subagents in parallel</span>
+<span class="code-comment"># Each investigates one technology</span>
+<span class="code-comment"># Results aggregated and presented together</span>
+</code>
+                    </div>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Common Error Corrected</h4>
+                        <p><strong>WRONG:</strong> "Crew supports up to 11 concurrent subagents"</p>
+                        <p><strong>CORRECT:</strong> "Crew supports 3-32 concurrent subagents, auto-sized based on machine resources"</p>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>📚 Source</h4>
+                        <p><a href="https://kiro.dev/docs/crew/features/subagents/" target="_blank" class="reference-link">kiro.dev/docs/crew/features/subagents/</a> - "usually 3–32"</p>
+                    </div>
+                </div>
+
+                <!-- Scheduling Tab -->
+                <div id="scheduling" class="tab-content">
+                    <div class="card">
+                        <h3>
+                            Scheduling (3 Modes)
+                            <span class="verification-badge">✓ Verified</span>
+                        </h3>
+                        <p>Three different ways to run tasks without human presence</p>
+                    </div>
+
+                    <div class="card-grid">
+                        <div class="card">
+                            <div class="card-icon">⏰</div>
+                            <h3>Mode 1: Cron Jobs</h3>
+                            <ul>
+                                <li>Standard cron expressions</li>
+                                <li>Or <code>--every N</code> seconds</li>
+                                <li>Per-job timeout (default 1800s)</li>
+                                <li>Fresh or persistent sessions</li>
+                                <li>Jitter by default (disable with <code>--strict-schedule</code>)</li>
+                            </ul>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-icon">💓</div>
+                            <h3>Mode 2: Heartbeats</h3>
+                            <ul>
+                                <li>Reactive monitoring (checks every 60s)</li>
+                                <li>Only surfaces when something changes</li>
+                                <li>Lives in <code>HEARTBEAT.md</code></li>
+                                <li>Lifecycle: runs until condition met</li>
+                            </ul>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-icon">🔗</div>
+                            <h3>Mode 3: Webhooks</h3>
+                            <ul>
+                                <li>External triggers via HTTP POST</li>
+                                <li>Endpoint: <code>/api/hooks/agent</code></li>
+                                <li>Max 6 concurrent webhook sessions</li>
+                                <li>Default 10-minute timeout</li>
+                                <li>Bearer token authentication</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+<code><span class="code-comment"># Example 1: Cron job</span>
+kirocrew cron add \
+  --name "Nightly Security Scan" \
+  --cron "0 2 * * *" \
+  --message "Scan all repos for secrets and vulnerabilities"
+
+<span class="code-comment"># Example 2: Webhook</span>
+curl -X POST http://localhost:5476/api/hooks/agent \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"message": "Build #1234 failed. Investigate."}'
+</code>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>📚 Source</h4>
+                        <p><a href="https://kiro.dev/docs/crew/features/cron/" target="_blank" class="reference-link">kiro.dev/docs/crew/features/cron/</a></p>
+                    </div>
+                </div>
+
+                <!-- Task Runner Tab -->
+                <div id="tasks" class="tab-content">
+                    <div class="card">
+                        <h3>
+                            Task Runner
+                            <span class="verification-badge">✓ Verified</span>
+                        </h3>
+                        <p>Autonomous task execution from specifications</p>
+
+                        <div class="timeline" style="margin-top: 2rem;">
+                            <div class="timeline-item">
+                                <h4>1. Decompose</h4>
+                                <p>Break spec into concrete steps</p>
+                            </div>
+                            <div class="timeline-item">
+                                <h4>2. Execute</h4>
+                                <p>Run each step with checkpoints</p>
+                            </div>
+                            <div class="timeline-item">
+                                <h4>3. Test</h4>
+                                <p>Verify step completion</p>
+                            </div>
+                            <div class="timeline-item">
+                                <h4>4. Retry</h4>
+                                <p>Handle failures automatically</p>
+                            </div>
+                            <div class="timeline-item">
+                                <h4>5. Resume</h4>
+                                <p>Restartable from failure point</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>📚 Source</h4>
+                        <p><a href="https://kiro.dev/docs/crew/features/task-runner/" target="_blank" class="reference-link">kiro.dev/docs/crew/features/task-runner/</a></p>
+                    </div>
+                </div>
+
+                <!-- Artifacts Tab -->
+                <div id="artifacts" class="tab-content">
+                    <div class="card">
+                        <h3>
+                            Artifacts
+                            <span class="verification-badge">✓ Verified</span>
+                        </h3>
+                        <p>Persistent outputs with version history</p>
+
+                        <table class="comparison-table" style="margin-top: 1.5rem;">
+                            <tr>
+                                <th>Kind</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td><strong>widget</strong></td>
+                                <td>Interactive HTML widgets</td>
+                            </tr>
+                            <tr>
+                                <td><strong>html</strong></td>
+                                <td>Static HTML pages</td>
+                            </tr>
+                            <tr>
+                                <td><strong>markdown</strong></td>
+                                <td>Markdown documents</td>
+                            </tr>
+                            <tr>
+                                <td><strong>svg</strong></td>
+                                <td>Vector graphics</td>
+                            </tr>
+                            <tr>
+                                <td><strong>json</strong></td>
+                                <td>Structured data</td>
+                            </tr>
+                            <tr>
+                                <td><strong>text</strong></td>
+                                <td>Plain text</td>
+                            </tr>
+                        </table>
+
+                        <div class="highlight-box" style="margin-top: 2rem;">
+                            <h4>✨ Optional: Deploy to AWS</h4>
+                            <p>Deploy webapp artifacts to public URLs on your AWS account</p>
+                            <p style="margin-top: 0.5rem; color: var(--text-secondary);">Requires AWS account configuration</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>📚 Source</h4>
+                        <p><a href="https://kiro.dev/docs/crew/features/artifact-deploy/" target="_blank" class="reference-link">kiro.dev/docs/crew/features/artifact-deploy/</a></p>
+                    </div>
+                </div>
+
+                <!-- Knowledge Tab -->
+                <div id="knowledge" class="tab-content">
+                    <div class="card">
+                        <h3>
+                            Knowledge Library
+                            <span class="verification-badge">✓ Verified</span>
+                        </h3>
+                        <p>Curated document store (separate from automatic memory)</p>
+
+                        <ul class="feature-list" style="margin-top: 1.5rem;">
+                            <li><strong>Sources:</strong> Local files, folders, URLs</li>
+                            <li><strong>Ingestion:</strong> Chunking, entity extraction, embeddings</li>
+                            <li><strong>Search:</strong> Via <code>local_knowledge_search</code> MCP tool</li>
+                            <li><strong>Access:</strong> Built-in dashboard surface (not App Store app)</li>
+                        </ul>
+
+                        <div class="info-box" style="margin-top: 2rem;">
+                            <h4>📏 Size limits</h4>
+                            <p>The official Knowledge docs do not publish a hard size limit. Check the current documentation or your dashboard for any account-specific limits.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>📚 Source</h4>
+                        <p><a href="https://kiro.dev/docs/crew/features/knowledge/" target="_blank" class="reference-link">kiro.dev/docs/crew/features/knowledge/</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subscription & Pricing -->
+        <section class="section" style="background: rgba(30, 41, 59, 0.3); margin: 0 -20px; padding: 4rem 20px;">
+            <div class="container">
+                <h2 class="section-title">
+                    Subscription & Pricing
+                    <span class="verification-badge">✓ Partially Verified</span>
+                </h2>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>💳 Single Subscription</h3>
+                        <p><strong>Covers all Kiro surfaces:</strong></p>
+                        <ul>
+                            <li>IDE</li>
+                            <li>CLI</li>
+                            <li>Web</li>
+                            <li>Mobile</li>
+                            <li>Crew</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>💰 Credit System</h3>
+                        <p><strong>Plans:</strong></p>
+                        <ul>
+                            <li>$20/month - 1,000 credits</li>
+                            <li>$50/month - 2,500 credits</li>
+                            <li>$100/month - 5,000 credits</li>
+                            <li>$200/month - 10,000 credits</li>
+                        </ul>
+                        <p style="margin-top: 1rem;"><strong>Add-on:</strong> $0.04/credit</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>🎯 Model Multipliers</h3>
+                        <p><strong>Different models consume credits at different rates:</strong></p>
+                        <ul>
+                            <li>Claude Opus 5: <strong>2.2x</strong></li>
+                            <li>Claude Sonnet (family): <strong>~1.3x</strong> <span style="color: var(--text-secondary); font-size: 0.85rem;">(official docs state 1.3x for the Sonnet family vs 2.2x for Opus, not per-model for Sonnet 5)</span></li>
+                            <li>Open-weight models: <strong>0.05x–0.5x</strong></li>
+                            <li>Auto router: Varies</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h4>💳 Credit Consumption</h4>
+                    <p>Credits are consumed based on the model calls each operation makes, at the model's published multiplier (Opus 5 = 2.2x; Sonnet family ~1.3x; open-weight 0.05x–0.5x).</p>
+                    <p style="margin-top: 1rem;"><strong>Per-operation cost</strong> (per subagent session, per cron run, per Task Runner task) <strong>is not published</strong> in the official docs. Measure it for your own workload in the subscription usage dashboard — this is the authoritative source.</p>
+                </div>
+
+                <div class="info-box">
+                    <h4>📚 Source</h4>
+                    <p><a href="https://kiro.dev/pricing/" target="_blank" class="reference-link">kiro.dev/pricing/</a></p>
+                    <p><a href="https://kiro.dev/docs/models/available-models/" target="_blank" class="reference-link">kiro.dev/docs/models/available-models/</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Cases -->
+        <section id="use-cases" class="section">
+            <h2 class="section-title">
+                Enterprise Use Cases
+                <span class="verification-badge unverified">⚠️ Examples</span>
+            </h2>
+            <p class="section-subtitle">Example scenarios based on documented capabilities (not real customer cases)</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📋 24/7 PR Monitoring</h3>
+                    <p><strong>Scenario:</strong> Track open PRs and alert on staleness</p>
+                    <p><strong>Implementation:</strong></p>
+                    <ul>
+                        <li>Heartbeat watches open PRs</li>
+                        <li>Alerts when stale (&gt;4 hours no review)</li>
+                        <li>Auto-pings reviewers via Slack</li>
+                    </ul>
+                    <span class="tag primary">Heartbeats</span>
+                    <span class="tag primary">Slack</span>
+                </div>
+
+                <div class="card">
+                    <h3>🔐 Nightly Security Audit</h3>
+                    <p><strong>Scenario:</strong> Automated security scanning</p>
+                    <p><strong>Implementation:</strong></p>
+                    <ul>
+                        <li>Cron job at 2am</li>
+                        <li>Spawns subagents (one per repo)</li>
+                        <li>Scans secrets, vulnerabilities</li>
+                        <li>Files HIGH/CRITICAL tickets</li>
+                    </ul>
+                    <span class="tag primary">Cron</span>
+                    <span class="tag primary">Subagents</span>
+                </div>
+
+                <div class="card">
+                    <h3>🚨 Incident Response</h3>
+                    <p><strong>Scenario:</strong> Automated triage and RCA</p>
+                    <p><strong>Implementation:</strong></p>
+                    <ul>
+                        <li>Webhook from PagerDuty</li>
+                        <li>Checks logs, metrics, deploys</li>
+                        <li>Applies known fixes (from memory)</li>
+                        <li>Escalates if novel</li>
+                        <li>Posts RCA when resolved</li>
+                    </ul>
+                    <span class="tag primary">Webhooks</span>
+                    <span class="tag primary">Memory</span>
+                </div>
+
+                <div class="card">
+                    <h3>🔄 Multi-Repo Migration</h3>
+                    <p><strong>Scenario:</strong> Update config across 50 repos</p>
+                    <p><strong>Implementation:</strong></p>
+                    <ul>
+                        <li>Task Runner with spec</li>
+                        <li>For each: clone → update → test → PR</li>
+                        <li>Restartable from failed repo</li>
+                        <li>Dashboard shows live progress</li>
+                    </ul>
+                    <span class="tag primary">Task Runner</span>
+                    <span class="tag primary">Subagents</span>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🔗 CI/CD Integration: CLI Headless</h3>
+                    <div class="code-block" style="margin-top: 1rem;">
+<code><span class="code-comment"># .gitlab-ci.yml or .github/workflows/</span>
+<span class="code-comment"># Documented headless form (auth via KIRO_API_KEY env var)</span>
+- run: kiro-cli chat --no-interactive --trust-tools=read,grep "Generate test fixtures"
+</code>
+                    </div>
+                    <p style="margin-top: 1rem;">Simple code generation, one-off tasks</p>
+                    <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">Note: engine version is selected with <code>--engine v3</code> (not <code>--v3</code>). <code>--v3</code> is a local-environment shorthand, not a documented flag.</p>
+                </div>
+
+                <div class="card">
+                    <h3>🔗 CI/CD Integration: Crew Webhooks</h3>
+                    <div class="code-block" style="margin-top: 1rem;">
+<code><span class="code-comment"># Pipeline calls Crew on failure</span>
+curl -X POST http://crew.internal/api/hooks/agent \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"message": "Build #1234 failed. Analyze."}'
+</code>
+                    </div>
+                    <p style="margin-top: 1rem;">Root cause analysis, continuous monitoring</p>
+                </div>
+
+                <div class="card">
+                    <h3>🔗 CI/CD Integration: Crew Cron</h3>
+                    <p>Periodic checks of CI status, PR status</p>
+                    <p style="margin-top: 0.5rem; color: var(--text-secondary);">Example: Nightly audits, regular health checks</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>ℹ️ Note</h4>
+                <p>These are <strong>example scenarios</strong> based on documented capabilities, not verified customer cases.</p>
+                <p style="margin-top: 0.5rem;">Your implementation may vary based on your infrastructure and requirements.</p>
+            </div>
+        </section>
+
+        <!-- Getting Started -->
+        <section id="getting-started" class="section" style="background: rgba(30, 41, 59, 0.3); margin: 0 -20px; padding: 4rem 20px;">
+            <div class="container">
+                <h2 class="section-title">
+                    Getting Started
+                    <span class="verification-badge">✓ Verified</span>
+                </h2>
+
+                <div class="two-column">
+                    <div class="card">
+                        <h3>🖥️ Option 1: Desktop App (Recommended)</h3>
+                        <div class="timeline" style="margin-top: 1.5rem;">
+                            <div class="timeline-item">
+                                <h4>Step 1: Download</h4>
+                                <p>macOS (.dmg) or Linux (.AppImage)</p>
+                            </div>
+                            <div class="timeline-item">
+                                <h4>Step 2: Launch</h4>
+                                <p>App auto-starts bundled Gateway</p>
+                            </div>
+                            <div class="timeline-item">
+                                <h4>Step 3: Authenticate</h4>
+                                <p>First launch installs kiro-cli and guides sign-in</p>
+                            </div>
+                            <div class="timeline-item">
+                                <h4>Step 4: Start</h4>
+                                <p>Ready to chat!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>⌨️ Option 2: CLI Install</h3>
+                        <div class="code-block" style="margin-top: 1.5rem;">
+<code><span class="code-comment"># Install</span>
+curl -fsSL https://download.crew.kiro.dev/cli.sh | sh
+
+<span class="code-comment"># Configure</span>
+kirocrew setup       <span class="code-comment"># Interactive wizard</span>
+kirocrew doctor      <span class="code-comment"># Verify setup</span>
+
+<span class="code-comment"># Start gateway</span>
+kirocrew gateway     <span class="code-comment"># Starts on port 5476</span>
+
+<span class="code-comment"># Open dashboard</span>
+open http://localhost:5476
+</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <h3>🎯 First Steps</h3>
+                    <ul class="feature-list" style="margin-top: 1rem;">
+                        <li><strong>Chat</strong> - Type and ask anything in the dashboard</li>
+                        <li><strong>Schedule a job</strong> - "Every weekday at 9, summarize my open work"</li>
+                        <li><strong>Teach a preference</strong> - "Always use pytest over unittest"</li>
+                        <li><strong>Run autonomous task</strong> - Projects panel → describe spec → Run</li>
+                        <li><strong>Delegate parallel work</strong> - "Research these 3 options in parallel"</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h3 style="color: var(--secondary); margin-bottom: 1rem;">✅ No AWS Configuration Needed</h3>
+                    <p><strong>You do NOT need:</strong></p>
+                    <ul class="feature-list" style="margin-top: 1rem;">
+                        <li>AWS CLI installation</li>
+                        <li>AWS account (unless deploying artifacts)</li>
+                        <li>Bedrock model access approval</li>
+                        <li>AWS SSO configuration</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Authentication:</strong> device-code sign-in on first launch (account can be created via AWS Builder ID or social login)</p>
+                </div>
+
+                <div class="info-box">
+                    <h4>📚 Source</h4>
+                    <p><a href="https://kiro.dev/docs/crew/installation/" target="_blank" class="reference-link">kiro.dev/docs/crew/installation/</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources -->
+        <section class="section">
+            <h2 class="section-title">Resources & Documentation</h2>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📖 Official Documentation</h3>
+                    <ul>
+                        <li><a href="https://kiro.dev/docs/crew/" target="_blank" class="reference-link">Kiro Crew Docs</a></li>
+                        <li><a href="https://kiro.dev/docs/crew/installation/" target="_blank" class="reference-link">Installation Guide</a></li>
+                        <li><a href="https://kiro.dev/docs/crew/features/" target="_blank" class="reference-link">Features Overview</a></li>
+                        <li><a href="https://kiro.dev/docs/models/available-models/" target="_blank" class="reference-link">Available Models</a></li>
+                        <li><a href="https://kiro.dev/pricing/" target="_blank" class="reference-link">Pricing</a></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔍 Feature Documentation</h3>
+                    <ul>
+                        <li><a href="https://kiro.dev/docs/crew/features/memory/" target="_blank" class="reference-link">Memory System</a></li>
+                        <li><a href="https://kiro.dev/docs/crew/features/subagents/" target="_blank" class="reference-link">Subagents</a></li>
+                        <li><a href="https://kiro.dev/docs/crew/features/cron/" target="_blank" class="reference-link">Scheduling (Cron/Heartbeats/Webhooks)</a></li>
+                        <li><a href="https://kiro.dev/docs/crew/features/task-runner/" target="_blank" class="reference-link">Task Runner</a></li>
+                        <li><a href="https://kiro.dev/docs/crew/features/knowledge/" target="_blank" class="reference-link">Knowledge Library</a></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📋 Training Materials</h3>
+                    <ul>
+                        <li>This website (HTML)</li>
+                        <li>PowerPoint presentation</li>
+                        <li>CORRECTIONS.md - Verification status</li>
+                        <li>VERIFIED_OUTLINE.md - Content outline</li>
+                        <li>README.md - Quick reference</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Kiro Crew Training Materials</p>
+            <p style="margin-top: 0.5rem;">
+                <span class="verification-badge">✓ All facts sourced from official docs</span>
+                <span class="verification-badge">📅 Verified 2026-08-31</span>
+            </p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">
+                All verified information sourced from <a href="https://kiro.dev/docs/" target="_blank" class="reference-link">kiro.dev/docs/</a>
+            </p>
+            <p style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
+                Last updated: August 25, 2026
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Activate clicked button
+            event.target.classList.add('active');
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

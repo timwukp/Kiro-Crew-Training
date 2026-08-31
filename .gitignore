@@ -1,0 +1,14 @@
+# Python virtual environment (do not commit)
+venv/
+__pycache__/
+*.pyc
+pyvenv.cfg
+
+# Backup files
+*.old
+
+# Office temp/lock files
+~$*
+
+# OS files
+.DS_Store
