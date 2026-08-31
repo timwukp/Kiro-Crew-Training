@@ -13,6 +13,6 @@ pyvenv.cfg
 # OS files
 .DS_Store
 
-# PPTX generator script — the built kiro-crew-training.pptx ships in the repo,
-# so end users don't need to regenerate it. Kept locally, excluded from the repo.
+# PPTX generator script and built deck — kept locally, excluded from the repo.
 generate_pptx.py
+kiro-crew-training.pptx
