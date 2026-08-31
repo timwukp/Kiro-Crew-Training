@@ -4,7 +4,7 @@
 
 60-minute comprehensive training on Kiro Crew — fully verified against the official docs at [kiro.dev/docs/crew](https://kiro.dev/docs/crew/) (verified 2026-08-31).
 
-> The interactive HTML site (`index.html`) is published via GitHub Pages at the link above. It is also viewable locally (see below), and a matching 60-minute PowerPoint deck is in `kiro-crew-training.pptx`.
+> The interactive HTML site (`index.html`) is published via GitHub Pages at the link above, and is also viewable locally (see below).
 
 ⚠️ **IMPORTANT**: This version corrects major errors in the original material:
 - ✅ Kiro Crew uses Kiro subscription credits (NOT AWS Bedrock)
@@ -29,13 +29,8 @@ python3 -m http.server 8000 --bind 127.0.0.1 --directory .
 ```
 Then open: http://localhost:8000/index.html
 
-### 2. PowerPoint Presentation (`kiro-crew-training.pptx`)
-60-minute lecture format with:
-- 35+ slides covering all topics
-- Correct positioning and architecture
-- Real feature limits from official docs
-- Enterprise decision framework
-- Demo sections with verified examples
+### 2. Training Outline
+The site delivers a full 60-minute lecture flow (see the outline below). A matching PowerPoint deck is produced from the same verified content but is **not distributed in this repository** — the interactive site is the canonical deliverable.
 
 ## Training Outline (60 minutes)
 
@@ -99,12 +94,14 @@ For hands-on sections:
 
 ## Files
 
-- `index.html` - Updated training website (corrected architecture)
-- `kiro-crew-training.pptx` - Updated presentation (verified information)
+- `index.html` - Interactive training website (corrected architecture, published via GitHub Pages)
+- `memory-layers.svg` - Six-memory-layers diagram used by the site
+- `demo-task-spec.md` - Runnable Task Runner demo spec referenced in the site
 - `README.md` - This file
-- `CORRECTIONS.md` - Detailed list of corrections from original version
-- `presentation-brief.md` - Updated slide outline
-- `generate_pptx.py` - Script to regenerate presentation
+- `CORRECTIONS.md` - Detailed list of corrections from the original version
+- `VERIFIED_OUTLINE.md` - Verified content outline
+- `QUICK_START.md` - How to view and present the material
+- `UPDATES.md` - Change log
 
 ## Verification Status
 

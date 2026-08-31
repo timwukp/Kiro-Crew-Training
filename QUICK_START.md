@@ -31,44 +31,25 @@ Then open: http://localhost:8000/index.html
 
 ---
 
-### 2. PowerPoint Presentation
-**File:** `kiro-crew-training.pptx` (~64KB)
-
-**To view:**
-- Open in PowerPoint, Keynote, or Google Slides
-- 29 slides for 60-minute lecture (~2min per slide)
-
-**Slide breakdown:**
-- Opening: 3 slides (title, agenda, what you'll learn)
-- Part 1 Introduction: 5 slides
-- Part 2 Positioning: 7 slides (comparison, decision framework)
-- Part 3 Features: 9 slides (6 features + 3 code examples)
-- Part 4 Use Cases: 4 slides (real-world examples)
-- Part 5 Getting Started: 3 slides (setup, best practices)
-- Closing: 3 slides (takeaways, Q&A, thank you)
-
-**Presentation style:**
-- Dark theme (matches HTML website)
-- Code blocks with syntax highlighting
-- Comparison tables
-- Feature deep-dives with examples
+### 2. Presentation (not in this repo)
+A matching 60-minute slide deck was produced from the same verified content, but it is **not distributed in this repository** — the interactive HTML site is the canonical deliverable and covers the full 60-minute flow on its own. If you have the deck file locally, open it in PowerPoint, Keynote, or Google Slides; otherwise present directly from the website.
 
 ---
 
 ## 📋 Training Agenda (60 minutes)
 
 **0:00-0:10** - Introduction
-- What is Kiro Crew? (slides 4-8)
+- What is Kiro Crew? (Introduction section)
 - Live demo: show HTML website
 
 **0:10-0:20** - Positioning
-- Kiro Crew vs Kiro IDE/CLI (slides 9-15)
+- Kiro Crew vs Kiro IDE/CLI (Why Crew section)
 - Why enterprises need both
 - Decision framework
 
 **0:20-0:40** - Features Deep Dive
-- 6 core features (slides 16-21)
-- 3 code examples (slides 22-24)
+- 6 core features (Features section tabs)
+- Code examples on each tab
 - Interactive walkthrough in HTML site
 
 **0:40-0:55** - Use Cases & Demo
@@ -109,19 +90,17 @@ In dashboard:
 
 ### Before the session:
 - Test HTML site loads correctly
-- Open PPTX and review speaker notes
 - Have Kiro Crew dashboard ready
 - Prepare 2-3 PRs in a test repo for demo
 
 ### During the session:
-- Start with HTML site (visual overview)
-- Switch to PPTX for structured walkthrough
-- Use HTML site for code example deep-dives
-- Live demo in dashboard for "wow" moments
+- Present from the HTML site (visual overview + structured walkthrough)
+- Use the Features tabs for code example deep-dives
+- Live demo in dashboard for "wow" moments (cron trigger, task runner)
 - Share HTML site link for self-paced learning
 
 ### After the session:
-- Share both files (HTML + PPTX)
+- Share the site link: https://timwukp.github.io/Kiro-Crew-Training/
 - Send setup guide (install Crew + kiro-cli device-code sign-in; no AWS CLI)
 - Offer 1:1 setup help if needed
 
@@ -130,37 +109,23 @@ In dashboard:
 ## 📦 Files Included
 
 ```
-kiro-crew-training/
-├── index.html                    # Interactive learning website (41KB)
-├── kiro-crew-training.pptx      # 60-min presentation (68KB, 33 slides)
-├── README.md                     # Overview and structure
-├── presentation-brief.md         # Detailed slide outline
-├── generate_pptx.py              # Script to regenerate PPTX
-├── QUICK_START.md               # This file
-└── venv/                         # Python virtual environment (for regeneration)
+kiro-crew-training/            (repo)
+├── index.html                 # Interactive learning website
+├── memory-layers.svg          # Six-memory-layers diagram
+├── demo-task-spec.md          # Runnable Task Runner demo spec
+├── README.md                  # Overview and structure
+├── VERIFIED_OUTLINE.md        # Verified content outline
+├── CORRECTIONS.md             # Verification status
+├── UPDATES.md                 # Change log
+└── QUICK_START.md             # This file
 ```
-
----
-
-## 🔧 Regenerating the PPTX
-
-If you need to modify the presentation:
-
-```bash
-cd kiro-crew-training
-source venv/bin/activate
-python generate_pptx.py
-```
-
-This regenerates `kiro-crew-training.pptx` with any changes you made to the script.
 
 ---
 
 ## ✅ Ready to Go!
 
 You have everything needed for a complete 60-minute Kiro Crew training:
-- ✅ Interactive HTML website with 6 sections, code examples, diagrams
-- ✅ Professional PowerPoint with 33 slides, dark theme, code blocks
+- ✅ Interactive HTML website with all sections, code examples, diagrams
 - ✅ Detailed README and quick start guide
 - ✅ Demo suggestions and teaching tips
 
