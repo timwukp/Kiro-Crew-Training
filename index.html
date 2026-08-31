@@ -1181,6 +1181,59 @@ curl -X POST http://localhost:5476/api/hooks/agent \
 </code>
                     </div>
 
+                    <!-- Use cases per mode -->
+                    <div class="card" style="margin-top:1.5rem;">
+                        <h3>Use Cases by Mode</h3>
+                        <table style="width:100%; border-collapse:collapse; font-size:0.9rem; margin-top:0.5rem;">
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                                <th style="text-align:left; padding:0.5rem;">Mode</th>
+                                <th style="text-align:left; padding:0.5rem;">Best for</th>
+                                <th style="text-align:left; padding:0.5rem;">Enterprise example (below)</th>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Cron</strong></td>
+                                <td style="padding:0.5rem;">Time-driven, predictable work: nightly audits, daily digests, periodic status checks, scheduled report generation</td>
+                                <td style="padding:0.5rem;"><a href="#use-cases" class="reference-link">Nightly Security Audit</a> (cron @ 2am → spawns subagents per repo)</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Heartbeat</strong></td>
+                                <td style="padding:0.5rem;">Condition-driven watching: only surfaces when something changes — stale PRs, drifting config, threshold breaches, deployment state</td>
+                                <td style="padding:0.5rem;"><a href="#use-cases" class="reference-link">24/7 PR Monitoring</a> (watch open PRs, ping reviewers when stale &gt;4h)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:0.5rem;"><strong>Webhook</strong></td>
+                                <td style="padding:0.5rem;">Event-driven, externally triggered: CI failures, PagerDuty alerts, GitLab/GitHub events, third-party callbacks</td>
+                                <td style="padding:0.5rem;"><a href="#use-cases" class="reference-link">Incident Response</a> (PagerDuty webhook → triage + RCA)</td>
+                            </tr>
+                        </table>
+                        <p style="margin-top:0.75rem; font-size:0.9rem;">Rule of thumb: <strong>Cron</strong> = "run on this clock", <strong>Heartbeat</strong> = "wake me only when X changes", <strong>Webhook</strong> = "run when an outside system calls me". The <a href="#use-cases" class="reference-link">Enterprise Use Cases</a> section below shows each of these end-to-end (the Multi-Repo Migration case pairs Task Runner with subagents rather than a schedule).</p>
+                    </div>
+
+                    <!-- Live demo -->
+                    <div class="card" style="margin-top:1.5rem; border-color: rgba(16,185,129,0.4);">
+                        <h3>🔴 Live Demo — running in this Kiro Crew right now</h3>
+                        <p>A real Cron job is scheduled in the presenter's Kiro Crew for this training:</p>
+                        <ul class="feature-list" style="margin-top:0.5rem;">
+                            <li><strong>Job</strong>: <code>Kiro Crew Training - Live Demo</code> (id <code>66d68a11</code>)</li>
+                            <li><strong>Schedule</strong>: <code>0 1 * * *</code> — daily 01:00 UTC (09:00 Asia/Taipei)</li>
+                            <li><strong>Action</strong>: checks that this training site returns HTTP 200 and reports one line (date · status · code)</li>
+                        </ul>
+                        <div class="code-block" style="margin-top:0.5rem;">
+<code><span class="code-comment"># How it was created (CLI carries admin authority)</span>
+kirocrew cron add "Kiro Crew Training - Live Demo" \
+  "Check the training site returns HTTP 200; reply one line." \
+  --cron "0 1 * * *"
+
+<span class="code-comment"># Manage it live</span>
+kirocrew cron list
+kirocrew cron trigger 66d68a11    <span class="code-comment"># fire immediately (demo)</span>
+kirocrew cron pause  66d68a11
+kirocrew cron remove 66d68a11
+</code>
+                        </div>
+                        <p style="margin-top:0.5rem; font-size:0.9rem;">During the lecture, run <code>kirocrew cron trigger 66d68a11</code> and show the result arriving in the dashboard/Slack — that is the scheduling feature working end-to-end.</p>
+                    </div>
+
                     <div class="info-box">
                         <h4>📚 Source</h4>
                         <p><a href="https://kiro.dev/docs/crew/features/cron/" target="_blank" class="reference-link">kiro.dev/docs/crew/features/cron/</a></p>

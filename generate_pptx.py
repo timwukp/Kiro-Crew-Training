@@ -419,6 +419,21 @@ def create_presentation():
             "• Bearer token authentication"
         ]
     )
+
+    add_content_slide(prs,
+        "Scheduling: Use Cases & Live Demo",
+        [
+            "Cron -> time-driven: nightly audits, daily digests",
+            "  (Enterprise ex: Nightly Security Audit @ 2am + subagents)",
+            "Heartbeat -> condition-driven: only wakes on change",
+            "  (Enterprise ex: 24/7 PR Monitoring, ping when stale >4h)",
+            "Webhook -> event-driven: CI failure, PagerDuty alert",
+            "  (Enterprise ex: Incident Response -> triage + RCA)",
+            "",
+            "LIVE DEMO (job 66d68a11): kirocrew cron trigger 66d68a11",
+            "  daily 01:00 UTC - checks training site returns HTTP 200",
+        ]
+    )
     
     add_content_slide(prs,
         "Task Runner",
