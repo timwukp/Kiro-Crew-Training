@@ -20,7 +20,7 @@ Self-paced learning website with:
 - Kiro Crew's unique value in the Kiro ecosystem
 - Deep dive into Crew-specific features
 - Real-world enterprise use cases
-- Code examples with copy buttons
+- Code examples for every core feature
 - Accurate architecture diagrams
 
 **To view:**
@@ -102,6 +102,8 @@ For hands-on sections:
 - `VERIFIED_OUTLINE.md` - Verified content outline
 - `QUICK_START.md` - How to view and present the material
 - `UPDATES.md` - Change log
+- `REWRITE_SUMMARY.md` - Summary of the rewrite and its deliverables
+- `SECURITY.md` - Security policy for this repository
 
 ## Verification Status
 

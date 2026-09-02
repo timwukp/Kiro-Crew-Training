@@ -16,7 +16,7 @@ Then open: http://localhost:8000/index.html
 **Features:**
 - Self-paced learning with navigation
 - 6 major sections
-- 6 interactive code examples with copy buttons
+- 6 interactive tabbed sections with code examples
 - Architecture diagrams
 - Smooth scrolling, dark theme
 - Works offline once loaded
@@ -117,6 +117,8 @@ kiro-crew-training/            (repo)
 ├── VERIFIED_OUTLINE.md        # Verified content outline
 ├── CORRECTIONS.md             # Verification status
 ├── UPDATES.md                 # Change log
+├── REWRITE_SUMMARY.md         # Rewrite summary
+├── SECURITY.md                # Security policy
 └── QUICK_START.md             # This file
 ```
 

@@ -4,7 +4,7 @@
 Verify the Kiro Crew training website is complete and accurate by checking every section of index.html.
 
 ## Requirements
-1. Read `/Users/tmwu/.kiro/crew/workspace/kiro-crew-training/index.html`
+1. Read `./index.html`
 2. Count the number of `<section>` elements
 3. For each section, verify it has:
    - A section title (`<h2>`)
