@@ -37,11 +37,11 @@ Gateway auth method — reworded accordingly.
 ### Files Updated
 - `index.html` (CI block, model multipliers, two auth references)
 - `VERIFIED_OUTLINE.md` (CI, multipliers, two auth references)
-- `generate_pptx.py` (CI slide, multipliers, two auth references)
+- `generate_pptx.py` (CI slide, multipliers, two auth references) — *not distributed in this repository*
 - `QUICK_START.md` (stale setup line + stale size/slide numbers)
 - `CORRECTIONS.md`, `REWRITE_SUMMARY.md` (multiplier + auth statements)
-- `presentation-brief.md` (fully rewritten — was still the old Bedrock version)
-- `kiro-crew-training.pptx` (regenerated)
+- `presentation-brief.md` (fully rewritten — was still the old Bedrock version) — *not distributed in this repository*
+- `kiro-crew-training.pptx` (regenerated) — *not distributed in this repository*
 
 ### Verification sources (fetched 2026-08-31)
 - https://kiro.dev/docs/cli/headless/

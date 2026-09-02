@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kiro Crew Training - Personal AI Agent Platform</title>
     <meta name="description" content="Enterprise training for Kiro Crew - Persistent, self-learning AI agent with scheduling, memory, and autonomous operation">
+    <link rel="canonical" href="https://timwukp.github.io/Kiro-Crew-Training/">
+    <meta property="og:title" content="Kiro Crew Training - Personal AI Agent Platform">
+    <meta property="og:description" content="60-minute self-paced training on Kiro Crew: persistent memory, subagents, scheduling, and autonomous operation. Verified against official kiro.dev docs.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://timwukp.github.io/Kiro-Crew-Training/">
+    <meta property="og:image" content="https://timwukp.github.io/Kiro-Crew-Training/memory-layers.svg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E%F0%9F%9A%80%3C/text%3E%3C/svg%3E">
     <style>
         :root {
             --primary: #2563eb;
@@ -912,10 +920,10 @@
                 </div>
 
                 <!-- Memory Tab -->
-                <div id="memory" class="tab-content active">
+                <div id="memory" class="tab-content active" role="tabpanel" aria-labelledby="tab-memory">
                     <div class="card" style="text-align:center;">
                         <h3 style="text-align:left;">The Six Memory Layers</h3>
-                        <img src="memory-layers.svg" alt="Six memory layers: Preferences, Projects, Recent History (session-start), feeding into Semantic → Episodic → Lessons, all within the ~55K-token context window" style="max-width:100%; height:auto; margin-top:0.5rem; border:1px solid rgba(255,255,255,0.08); border-radius:10px;">
+                        <img src="memory-layers.svg" width="720" height="600" alt="Six memory layers: Preferences, Projects, Recent History (session-start), feeding into Semantic → Episodic → Lessons, all within the ~55K-token context window" style="max-width:100%; height:auto; margin-top:0.5rem; border:1px solid rgba(255,255,255,0.08); border-radius:10px;">
                         <p style="text-align:left; color:var(--text-secondary); font-size:0.9rem; margin-top:0.75rem;">New sessions inherit preferences, project context, and learned corrections from every prior session — without replaying old conversations token by token. Six independent layers, each with a specific purpose. <em>(Diagram redrawn from the official docs.)</em></p>
                     </div>
                     <div class="card">
@@ -1082,7 +1090,7 @@ kirocrew learn remove "prefer pytest"
                 </div>
 
                 <!-- Subagents Tab -->
-                <div id="subagents" class="tab-content">
+                <div id="subagents" class="tab-content" role="tabpanel" aria-labelledby="tab-subagents">
                     <div class="card">
                         <h3>
                             Subagents (Parallel Background Agents)
@@ -1143,7 +1151,7 @@ You: "Research these 3 technologies: Redis, PostgreSQL, MongoDB"
                 </div>
 
                 <!-- Scheduling Tab -->
-                <div id="scheduling" class="tab-content">
+                <div id="scheduling" class="tab-content" role="tabpanel" aria-labelledby="tab-scheduling">
                     <div class="card">
                         <h3>
                             Scheduling (3 Modes)
@@ -1263,7 +1271,7 @@ kirocrew cron remove 66d68a11
                 </div>
 
                 <!-- Task Runner Tab -->
-                <div id="tasks" class="tab-content">
+                <div id="tasks" class="tab-content" role="tabpanel" aria-labelledby="tab-tasks">
                     <div class="card">
                         <h3>
                             Task Runner
@@ -1348,7 +1356,7 @@ kirocrew run demo-task-spec.md --timeout 600  <span class="code-comment"># cap r
                 </div>
 
                 <!-- Artifacts Tab -->
-                <div id="artifacts" class="tab-content">
+                <div id="artifacts" class="tab-content" role="tabpanel" aria-labelledby="tab-artifacts">
                     <div class="card">
                         <h3>
                             Artifacts
@@ -1401,7 +1409,7 @@ kirocrew run demo-task-spec.md --timeout 600  <span class="code-comment"># cap r
                 </div>
 
                 <!-- Knowledge Tab -->
-                <div id="knowledge" class="tab-content">
+                <div id="knowledge" class="tab-content" role="tabpanel" aria-labelledby="tab-knowledge">
                     <div class="card">
                         <h3>
                             Knowledge Library

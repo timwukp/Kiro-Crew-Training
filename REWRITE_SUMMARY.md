@@ -10,6 +10,11 @@
 
 Complete rewrite of all training materials based on verified official documentation from kiro.dev.
 
+> **Distribution note:** `generate_pptx.py`, `kiro-crew-training.pptx` and
+> `presentation-brief.md` are listed below for historical accuracy but are **not
+> distributed in this repository** (the first two are git-ignored). The interactive
+> site (`index.html`) is the canonical deliverable.
+
 ### Files Updated
 
 1. **index.html** (63 KB, 1,552 lines)
