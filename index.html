@@ -490,6 +490,24 @@
             border-bottom-color: var(--primary);
         }
         
+        .skip-link {
+            position: absolute;
+            left: -9999px;
+            top: 0;
+            z-index: 1000;
+            padding: 0.75rem 1.25rem;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 0 0 8px 0;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .skip-link:focus {
+            left: 0;
+            outline: 3px solid var(--accent);
+        }
+
         .tab-content {
             display: none;
             animation: fadeIn 0.3s;
@@ -568,6 +586,7 @@
     </style>
 </head>
 <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <header>
         <div class="container">
             <nav>
@@ -586,7 +605,7 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="container" id="main-content">
         <!-- Hero Section -->
         <section class="hero">
             <div class="badge">✅ Facts verified against official kiro.dev docs (2026-08-31)</div>
@@ -883,13 +902,13 @@
 
             <!-- Memory System -->
             <div class="tab-container">
-                <div class="tab-buttons">
-                    <button class="tab-button active" onclick="showTab('memory')">💾 Memory System</button>
-                    <button class="tab-button" onclick="showTab('subagents')">🤖 Subagents</button>
-                    <button class="tab-button" onclick="showTab('scheduling')">⏰ Scheduling</button>
-                    <button class="tab-button" onclick="showTab('tasks')">📋 Task Runner</button>
-                    <button class="tab-button" onclick="showTab('artifacts')">📦 Artifacts</button>
-                    <button class="tab-button" onclick="showTab('knowledge')">📚 Knowledge</button>
+                <div class="tab-buttons" role="tablist" aria-label="Core feature tabs">
+                    <button id="tab-memory" class="tab-button active" role="tab" aria-selected="true" aria-controls="memory" onclick="showTab('memory', this)">💾 Memory System</button>
+                    <button id="tab-subagents" class="tab-button" role="tab" aria-selected="false" aria-controls="subagents" onclick="showTab('subagents', this)">🤖 Subagents</button>
+                    <button id="tab-scheduling" class="tab-button" role="tab" aria-selected="false" aria-controls="scheduling" onclick="showTab('scheduling', this)">⏰ Scheduling</button>
+                    <button id="tab-tasks" class="tab-button" role="tab" aria-selected="false" aria-controls="tasks" onclick="showTab('tasks', this)">📋 Task Runner</button>
+                    <button id="tab-artifacts" class="tab-button" role="tab" aria-selected="false" aria-controls="artifacts" onclick="showTab('artifacts', this)">📦 Artifacts</button>
+                    <button id="tab-knowledge" class="tab-button" role="tab" aria-selected="false" aria-controls="knowledge" onclick="showTab('knowledge', this)">📚 Knowledge</button>
                 </div>
 
                 <!-- Memory Tab -->
@@ -2008,20 +2027,23 @@ open http://localhost:5476
     </footer>
 
     <script>
-        function showTab(tabName) {
-            // Hide all tabs
+        function showTab(tabName, btn) {
             const contents = document.querySelectorAll('.tab-content');
             contents.forEach(content => content.classList.remove('active'));
             
-            // Remove active class from all buttons
             const buttons = document.querySelectorAll('.tab-button');
-            buttons.forEach(button => button.classList.remove('active'));
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
             
-            // Show selected tab
             document.getElementById(tabName).classList.add('active');
             
-            // Activate clicked button
-            event.target.classList.add('active');
+            const source = btn || document.querySelector('[aria-controls="' + tabName + '"]');
+            if (source) {
+                source.classList.add('active');
+                source.setAttribute('aria-selected', 'true');
+            }
         }
 
         // Smooth scroll for anchor links
