@@ -1,10 +1,10 @@
 # Intent: Correct the memory-system figures and document where memory actually lives
 
 - **Slug:** memory-internals
-- **Author:** Kiro Agent
-- **Accepted-by:**
+- **Author:** Tim WU
+- **Accepted-by:** Tim WU
 - **Date:** 2026-09-03
-- **Status:** draft
+- **Status:** accepted
 
 ## Problem
 
