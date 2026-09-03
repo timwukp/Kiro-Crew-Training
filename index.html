@@ -1011,9 +1011,12 @@ You: "Always use pytest over unittest"
                         <p><strong>Conflict resolution is per-key and happens at write time — there is no priority
                         ordering between the layers.</strong> Verified against KiroCrew source on 2026-09-03: there is no
                         layer-rank constant, no precedence table, and no routine that arbitrates when two layers disagree.
-                        The official docs publish a 6-level inter-layer priority list; that ordering is not implemented in
-                        the code, and for retrieval the code does the opposite (see the last point). Four real mechanisms
-                        do the work.</p>
+                        The official docs publish no such ordering — checked 2026-09-03, the phrases
+                        "priority order", "6-Level" and "Level Priority" appear nowhere in KiroCrew's
+                        own documentation. <strong>This page itself</strong> previously published a
+                        6-level inter-layer priority list; that ordering was never implemented in the
+                        code, and for retrieval the code does the opposite (see the last point). Four
+                        real mechanisms do the work.</p>
 
                         <p style="margin-top:0.75rem;"><strong>1. Same-key conflict resolution (semantic memory, at
                         write).</strong> When a write targets a key that already exists, the store decides in this order:</p>
