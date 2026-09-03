@@ -1,9 +1,9 @@
 # Plan: Correct the memory-system figures and document where memory actually lives
 
 - **Spec:** ./spec.md
-- **Author:** Kiro Agent
-- **Accepted-by:**
-- **Status:** draft
+- **Author:** Tim WU
+- **Accepted-by:** Tim WU
+- **Status:** accepted
 
 ## Files changed
 
