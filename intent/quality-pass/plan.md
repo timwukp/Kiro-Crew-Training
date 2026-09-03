@@ -1,6 +1,8 @@
 # Plan: Quality pass on the training site and its docs
 
 - **Spec:** ./spec.md
+- **Author:** Kiro Agent
+- **Accepted-by:** Tim WU
 - **Status:** accepted
 
 ## Files changed (in order of work)
