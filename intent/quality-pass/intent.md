@@ -1,7 +1,8 @@
 # Intent: Quality pass on the training site and its docs
 
 - **Slug:** quality-pass
-- **Author:** ai-native-sdlc loop
+- **Author:** Kiro Agent
+- **Accepted-by:** Tim WU
 - **Date:** 2026-09-02
 - **Status:** accepted
 

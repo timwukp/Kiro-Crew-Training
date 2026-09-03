@@ -1,6 +1,8 @@
 # Spec: Quality pass on the training site and its docs
 
 - **Intent:** ./intent.md
+- **Author:** Kiro Agent
+- **Accepted-by:** Tim WU
 - **Status:** signed-off
 
 ## Requirements
