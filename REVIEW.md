@@ -17,5 +17,3 @@ Generated files, vendored code, formatting the linter already owns.
 
 ## Feedback into CLAUDE.md
 A mistake flagged twice becomes a correction in `CLAUDE.md`.
-
-<!-- SDLC gate smoke test: doc-only change, must pass the gate. -->
