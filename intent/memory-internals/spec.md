@@ -1,7 +1,7 @@
 # Spec: Correct the memory-system figures and document where memory actually lives
 
 - **Intent:** ./intent.md
-- **Author:** Tim WU
+- **Author:** Kiro Agent
 - **Accepted-by:** Tim WU
 - **Status:** signed-off
 

@@ -1,7 +1,7 @@
 # Plan: Correct the memory-system figures and document where memory actually lives
 
 - **Spec:** ./spec.md
-- **Author:** Tim WU
+- **Author:** Kiro Agent
 - **Accepted-by:** Tim WU
 - **Status:** accepted
 

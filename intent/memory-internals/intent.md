@@ -1,7 +1,7 @@
 # Intent: Correct the memory-system figures and document where memory actually lives
 
 - **Slug:** memory-internals
-- **Author:** Tim WU
+- **Author:** Kiro Agent
 - **Accepted-by:** Tim WU
 - **Date:** 2026-09-03
 - **Status:** accepted
