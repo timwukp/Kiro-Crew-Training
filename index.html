@@ -1233,6 +1233,61 @@ kirocrew learn remove "prefer pytest"
                         <p style="margin-top:0.5rem;"><strong>Backup:</strong> Memory is included in <code>kirocrew snapshot</code> (<code>memory.db</code> + <code>memory_index.db</code> — semantic, episodic and lessons all live in these — plus the <code>workspace/memory/</code> markdown). See Snapshot &amp; Restore section.</p>
                     </div>
 
+                    <!-- Memory use cases -->
+                    <div class="card" style="margin-top:1.5rem;">
+                        <h3>Use Cases</h3>
+                        <p>Memory is best for context that should improve future sessions — not for storing source documents or running scheduled work.</p>
+                        <table style="width:100%; border-collapse:collapse; font-size:0.9rem; margin-top:0.75rem;">
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                                <th style="text-align:left; padding:0.5rem;">Use case</th>
+                                <th style="text-align:left; padding:0.5rem;">Memory layers involved</th>
+                                <th style="text-align:left; padding:0.5rem;">Enterprise value</th>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Operating standards</strong> — coding, review, and communication rules</td>
+                                <td style="padding:0.5rem;">Lessons + Preferences</td>
+                                <td style="padding:0.5rem;">Explicit lessons carry into future sessions in the Learned corrections block</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Long-running delivery context</strong> — branches, decisions, blockers</td>
+                                <td style="padding:0.5rem;">Projects + Recent History + Episodic</td>
+                                <td style="padding:0.5rem;">Resume work without replaying entire conversations</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Incident-response continuity</strong></td>
+                                <td style="padding:0.5rem;">Semantic + Episodic + Lessons</td>
+                                <td style="padding:0.5rem;">Recall approved fixes and prior outcomes; see <a href="#uc-incident-response" class="reference-link">Enterprise: Incident Response</a></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:0.5rem;"><strong>Cross-channel continuity</strong></td>
+                                <td style="padding:0.5rem;">Shared store, channel-aware recording</td>
+                                <td style="padding:0.5rem;">Keep authorized context consistent across dashboard, DMs, and supported group channels</td>
+                            </tr>
+                        </table>
+                        <p style="margin-top:0.75rem; font-size:0.9rem;"><strong>Use Knowledge instead</strong> when the source of truth is an external runbook, specification, repository, or URL that users deliberately curate.</p>
+                    </div>
+
+                    <!-- Memory live demo -->
+                    <div class="card" style="margin-top:1.5rem; border-color: rgba(16,185,129,0.4);">
+                        <h3>🔴 Live Demo — teach, recall, clean up</h3>
+                        <p>This reversible demo proves that an explicit lesson survives a session boundary:</p>
+                        <div class="code-block" style="margin-top:0.5rem;">
+<code><span class="code-comment"># 1. Teach one distinctive rule</span>
+kirocrew learn add "For training demos, always state whether an action is reversible before running it"
+
+<span class="code-comment"># 2. Confirm that Crew stored it</span>
+kirocrew learn list
+
+<span class="code-comment"># 3. Open a NEW chat session in the SAME workspace, then ask:</span>
+What training-demo rule did I teach you?
+
+<span class="code-comment"># 4. Clean up after the demo</span>
+kirocrew learn remove "For training demos"
+</code>
+                        </div>
+                        <p style="margin-top:0.5rem; font-size:0.9rem;">Expected result: the new session states the reversibility rule without the presenter pasting prior chat history. Removal makes the demo safe to repeat.</p>
+                    </div>
+
                     <div class="info-box">
                         <h4>📚 Source</h4>
                         <p><a href="https://kiro.dev/docs/crew/features/memory/" target="_blank" class="reference-link">kiro.dev/docs/crew/features/memory/</a></p>
@@ -1286,6 +1341,60 @@ You: "Research these 3 technologies: Redis, PostgreSQL, MongoDB"
 <span class="code-comment"># Each investigates one technology</span>
 <span class="code-comment"># Results aggregated and presented together</span>
 </code>
+                    </div>
+
+                    <!-- Subagent use cases -->
+                    <div class="card" style="margin-top:1.5rem;">
+                        <h3>Use Cases</h3>
+                        <table style="width:100%; border-collapse:collapse; font-size:0.9rem; margin-top:0.75rem;">
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                                <th style="text-align:left; padding:0.5rem;">Use case</th>
+                                <th style="text-align:left; padding:0.5rem;">Parallel split</th>
+                                <th style="text-align:left; padding:0.5rem;">Related enterprise example</th>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Portfolio security review</strong></td>
+                                <td style="padding:0.5rem;">One independent repo or service per subagent</td>
+                                <td style="padding:0.5rem;"><a href="#uc-security-audit" class="reference-link">Nightly Security Audit</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Incident triage</strong></td>
+                                <td style="padding:0.5rem;">Logs, metrics, recent deploys, and runbooks investigated concurrently</td>
+                                <td style="padding:0.5rem;"><a href="#uc-incident-response" class="reference-link">Incident Response</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Migration discovery</strong></td>
+                                <td style="padding:0.5rem;">Inventory compatibility and risk across independent repositories</td>
+                                <td style="padding:0.5rem;"><a href="#uc-multi-repo" class="reference-link">Multi-Repo Migration</a></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:0.5rem;"><strong>Technology or vendor comparison</strong></td>
+                                <td style="padding:0.5rem;">One candidate per subagent, then synthesize evidence in the main session</td>
+                                <td style="padding:0.5rem;">Architecture decision support</td>
+                            </tr>
+                        </table>
+                        <p style="margin-top:0.75rem; font-size:0.9rem;"><strong>Use Task Runner instead</strong> when work is sequential, checkpointed, and must modify/test/commit a codebase. Use Scheduling when work is recurring or event-driven.</p>
+                    </div>
+
+                    <!-- Subagent live demo -->
+                    <div class="card" style="margin-top:1.5rem; border-color: rgba(16,185,129,0.4);">
+                        <h3>🔴 Live Demo — three-source verification in parallel</h3>
+                        <p>Paste this read-only prompt into a dashboard chat:</p>
+                        <div class="code-block" style="margin-top:0.5rem;">
+<code>Use three parallel subagents. Assign one official page to each:
+1) Kiro Crew Memory, 2) Subagents, 3) Knowledge.
+Each returns exactly: one capability, one published limit (or “not published”),
+and the official source URL. Do not edit files or use private data.
+</code>
+                        </div>
+                        <p style="margin-top:0.5rem;">Watch all three rows in the <strong>Activity</strong> panel, then watch results arrive incrementally in the original conversation.</p>
+                        <div class="code-block" style="margin-top:0.5rem;">
+<code><span class="code-comment"># CLI controls for a separate single subagent</span>
+kirocrew spawn run "Read the official Subagents page and summarize its limits"
+kirocrew spawn run --async "Read the official Knowledge page"
+kirocrew spawn list
+</code>
+                        </div>
                     </div>
 
                     <div class="warning-box">
@@ -1552,8 +1661,63 @@ kirocrew run demo-task-spec.md --timeout 600  <span class="code-comment"># cap r
                         </div>
                     </div>
 
+                    <!-- Artifact use cases -->
+                    <div class="card" style="margin-top:1.5rem;">
+                        <h3>Use Cases</h3>
+                        <table style="width:100%; border-collapse:collapse; font-size:0.9rem; margin-top:0.75rem;">
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                                <th style="text-align:left; padding:0.5rem;">Use case</th>
+                                <th style="text-align:left; padding:0.5rem;">Artifact form</th>
+                                <th style="text-align:left; padding:0.5rem;">Why persist it</th>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Architecture decision support</strong></td>
+                                <td style="padding:0.5rem;">Interactive option selector or decision matrix</td>
+                                <td style="padding:0.5rem;">Collect structured choices, iterate, comment, and retain versions</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Migration progress</strong></td>
+                                <td style="padding:0.5rem;">Status dashboard</td>
+                                <td style="padding:0.5rem;">Give stakeholders a reusable view of <a href="#uc-multi-repo" class="reference-link">Multi-Repo Migration</a></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Incident postmortem</strong></td>
+                                <td style="padding:0.5rem;">Versioned Markdown or HTML report</td>
+                                <td style="padding:0.5rem;">Preserve review comments and revisions after <a href="#uc-incident-response" class="reference-link">Incident Response</a></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:0.5rem;"><strong>Internal prototype</strong></td>
+                                <td style="padding:0.5rem;">Webapp with local preview</td>
+                                <td style="padding:0.5rem;">Iterate in the library; optionally deploy to the team's AWS account</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Artifact live demo -->
+                    <div class="card" style="margin-top:1.5rem; border-color: rgba(16,185,129,0.4);">
+                        <h3>🔴 Live Demo — create, version, revert</h3>
+                        <p>Run these prompts in chat; no AWS account is needed for creation, local preview, versioning, or revert:</p>
+                        <div class="code-block" style="margin-top:0.5rem;">
+<code><span class="code-comment"># 1. Create and save</span>
+Create a theme-aware interactive rollout decision matrix for Canary,
+Blue-Green, and Rolling. Use fictional data only. Render it as a widget,
+then save it as an artifact named “Training - Rollout Decision Matrix”.
+
+<span class="code-comment"># 2. Create a second version</span>
+Update the artifact: add a “Rollback readiness” column and save the change.
+
+<span class="code-comment"># 3. Inspect, then revert through the agent</span>
+Open the artifact in the Artifacts panel and inspect its version history.
+Then ask: Revert “Training - Rollout Decision Matrix” to version 1
+and save that content as the new current version.
+</code>
+                        </div>
+                        <p style="margin-top:0.5rem; font-size:0.9rem;">The artifact remains available after the chat scrolls away. Reverting restores old content as a new current version, preserving history. Deployment is a separate optional step that requires an AWS profile and explicit confirmation.</p>
+                    </div>
+
                     <div class="info-box">
-                        <h4>📚 Source</h4>
+                        <h4>📚 Sources</h4>
+                        <p><a href="https://kiro.dev/docs/crew/chat/artifacts/" target="_blank" class="reference-link">kiro.dev/docs/crew/chat/artifacts/</a></p>
                         <p><a href="https://kiro.dev/docs/crew/features/artifact-deploy/" target="_blank" class="reference-link">kiro.dev/docs/crew/features/artifact-deploy/</a></p>
                     </div>
                 </div>
@@ -1578,6 +1742,56 @@ kirocrew run demo-task-spec.md --timeout 600  <span class="code-comment"># cap r
                             <h4>📏 Size limits</h4>
                             <p>The official Knowledge docs do not publish a hard size limit. Check the current documentation or your dashboard for any account-specific limits.</p>
                         </div>
+                    </div>
+
+                    <!-- Knowledge use cases -->
+                    <div class="card" style="margin-top:1.5rem;">
+                        <h3>Use Cases</h3>
+                        <table style="width:100%; border-collapse:collapse; font-size:0.9rem; margin-top:0.75rem;">
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                                <th style="text-align:left; padding:0.5rem;">Curated source</th>
+                                <th style="text-align:left; padding:0.5rem;">Example questions</th>
+                                <th style="text-align:left; padding:0.5rem;">Enterprise use</th>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Runbooks and SOPs</strong></td>
+                                <td style="padding:0.5rem;">“What is the approved escalation path for this alert?”</td>
+                                <td style="padding:0.5rem;"><a href="#uc-incident-response" class="reference-link">Incident Response</a> grounded in maintained procedures</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>API references and specifications</strong></td>
+                                <td style="padding:0.5rem;">“Which request fields are required by this version?”</td>
+                                <td style="padding:0.5rem;">Implementation and migration support</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <td style="padding:0.5rem;"><strong>Architecture and onboarding docs</strong></td>
+                                <td style="padding:0.5rem;">“Where does this service persist state?”</td>
+                                <td style="padding:0.5rem;">Faster system discovery with source-linked chunks</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:0.5rem;"><strong>Policy and engineering standards</strong></td>
+                                <td style="padding:0.5rem;">“What review evidence is required?”</td>
+                                <td style="padding:0.5rem;">Reference the curated policy instead of relying on conversational memory</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Knowledge live demo -->
+                    <div class="card" style="margin-top:1.5rem; border-color: rgba(16,185,129,0.4);">
+                        <h3>🔴 Live Demo — ingest, retrieve, cite</h3>
+                        <p>This repository includes a fictional, non-production runbook: <a href="demo-knowledge-source.md" target="_blank" class="reference-link"><code>demo-knowledge-source.md</code></a>.</p>
+                        <ol style="line-height:1.9; margin-top:0.5rem;">
+                            <li>Open <strong>Knowledge</strong> in the dashboard sidebar → <strong>Add source</strong> → choose the demo file.</li>
+                            <li>Review the confirmation list and wait until ingestion shows complete.</li>
+                            <li>Ask the question below in chat.</li>
+                            <li>Expand the result/source in Knowledge to show the retrieved chunk.</li>
+                        </ol>
+                        <div class="code-block" style="margin-top:0.5rem;">
+<code>According to the “Training Demo: Dependency-Lock Mismatch Runbook”,
+when must the operator escalate? Cite the source.
+</code>
+                        </div>
+                        <p style="margin-top:0.5rem; font-size:0.9rem;"><strong>Expected:</strong> escalate when the package-manager version is unknown, lock regeneration changes unrelated packages, or targeted tests remain red. Knowledge retrieves relevant chunks rather than injecting the whole document. Remove the source afterward to reset the demo.</p>
                     </div>
 
                     <div class="info-box">
@@ -1831,7 +2045,7 @@ kirocrew logs -f</code></div>
             <p class="section-subtitle">Example scenarios based on documented capabilities (not real customer cases)</p>
 
             <div class="card-grid">
-                <div class="card">
+                <div class="card" id="uc-pr-monitoring">
                     <h3>📋 24/7 PR Monitoring</h3>
                     <p><strong>Scenario:</strong> Track open PRs and alert on staleness</p>
                     <p><strong>Implementation:</strong></p>
@@ -1844,7 +2058,7 @@ kirocrew logs -f</code></div>
                     <span class="tag primary">Slack</span>
                 </div>
 
-                <div class="card">
+                <div class="card" id="uc-security-audit">
                     <h3>🔐 Nightly Security Audit</h3>
                     <p><strong>Scenario:</strong> Automated security scanning</p>
                     <p><strong>Implementation:</strong></p>
@@ -1858,7 +2072,7 @@ kirocrew logs -f</code></div>
                     <span class="tag primary">Subagents</span>
                 </div>
 
-                <div class="card">
+                <div class="card" id="uc-incident-response">
                     <h3>🚨 Incident Response</h3>
                     <p><strong>Scenario:</strong> Automated triage and RCA</p>
                     <p><strong>Implementation:</strong></p>
@@ -1873,7 +2087,7 @@ kirocrew logs -f</code></div>
                     <span class="tag primary">Memory</span>
                 </div>
 
-                <div class="card">
+                <div class="card" id="uc-multi-repo">
                     <h3>🔄 Multi-Repo Migration</h3>
                     <p><strong>Scenario:</strong> Update config across 50 repos</p>
                     <p><strong>Implementation:</strong></p>
@@ -2179,7 +2393,7 @@ open http://localhost:5476
                 📦 Source: <a href="https://github.com/timwukp/Kiro-Crew-Training" target="_blank" class="reference-link">github.com/timwukp/Kiro-Crew-Training</a> — clone the repo for the HTML site and the runnable demo spec.
             </p>
             <p style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
-                Last updated: August 31, 2026
+                Last updated: September 5, 2026
             </p>
         </div>
     </footer>

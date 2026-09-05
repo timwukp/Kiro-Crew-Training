@@ -53,6 +53,7 @@ The site delivers a full 60-minute lecture flow (see the outline below). A match
 - Task Runner (autonomous execution with checkpoints)
 - Artifacts (versioned output)
 - Knowledge Library (curated docs)
+- Feature-specific enterprise use cases and safe, repeatable live demos
 
 ### Part 4: Enterprise Use Cases & Integration (15 min)
 - CI/CD integration (3 modes)
@@ -97,6 +98,7 @@ For hands-on sections:
 - `index.html` - Interactive training website (corrected architecture, published via GitHub Pages)
 - `memory-layers.svg` - Six-memory-layers diagram used by the site
 - `demo-task-spec.md` - Runnable Task Runner demo spec referenced in the site
+- `demo-knowledge-source.md` - Fictional, public runbook for the Knowledge ingestion/retrieval demo
 - `README.md` - This file
 - `CORRECTIONS.md` - Detailed list of corrections from the original version
 - `VERIFIED_OUTLINE.md` - Verified content outline
